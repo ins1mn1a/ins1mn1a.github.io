@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ins1mn1a.github.io/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/</loc>
+    
+    <lastmod>2021-12-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://ins1mn1a.github.io/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/</loc>
     
     <lastmod>2021-12-17</lastmod>
@@ -20,7 +29,7 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/</loc>
+    <loc>http://ins1mn1a.github.io/2021/01/23/SpringSecurity/SpringSecurity%E8%BF%87%E6%BB%A4%E5%99%A8%E5%8E%9F%E7%90%86/</loc>
     
     <lastmod>2021-12-17</lastmod>
     
@@ -41,15 +50,6 @@
     <loc>http://ins1mn1a.github.io/2021/12/17/SpringSecurity/SpringSecurity+Jwt%E6%95%B4%E5%90%88/</loc>
     
     <lastmod>2021-12-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://ins1mn1a.github.io/2021/01/23/SpringSecurity/SpringSecurity%E8%BF%87%E6%BB%A4%E5%99%A8%E5%8E%9F%E7%90%86/</loc>
-    
-    <lastmod>2021-12-16</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -101,14 +101,14 @@
 
   
   <url>
-    <loc>http://ins1mn1a.github.io/tags/SpringSecurity/</loc>
+    <loc>http://ins1mn1a.github.io/tags/Redis/</loc>
     <lastmod>2021-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/tags/Redis/</loc>
+    <loc>http://ins1mn1a.github.io/tags/SpringSecurity/</loc>
     <lastmod>2021-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -117,14 +117,14 @@
 
   
   <url>
-    <loc>http://ins1mn1a.github.io/categories/SpringSecurity/</loc>
+    <loc>http://ins1mn1a.github.io/categories/Redis/</loc>
     <lastmod>2021-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/categories/Redis/</loc>
+    <loc>http://ins1mn1a.github.io/categories/SpringSecurity/</loc>
     <lastmod>2021-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
