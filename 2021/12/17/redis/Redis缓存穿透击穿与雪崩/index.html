@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Redis 缓存穿透击穿与雪崩 | ins1mn1a</title><meta name="keywords" content="Redis"><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Redis存穿透击穿与雪崩以及解决方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 缓存穿透击穿与雪崩">
+<meta property="og:url" content="http://ins1mn1a.github.io/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="Redis存穿透击穿与雪崩以及解决方式">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/top_img1.jpeg">
+<meta property="article:published_time" content="2021-12-17T12:31:22.721Z">
+<meta property="article:modified_time" content="2021-12-17T12:38:33.631Z">
+<meta property="article:author" content="ins1mnia">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/top_img1.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis 缓存穿透击穿与雪崩',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-17 20:38:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../img/background_img/top_img1.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis 缓存穿透击穿与雪崩</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-17T12:31:22.721Z" title="发表于 2021-12-17 20:31:22">2021-12-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-17T12:38:33.631Z" title="更新于 2021-12-17 20:38:33">2021-12-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Redis/">Redis</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis 缓存穿透击穿与雪崩"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在生产环境中，会因为很多的原因造成访问请求绕过了缓存，都需要访问数据库持久层，虽然对Redis缓存服务器不会造成影响，但是数据库的负载就会增大，使缓存的作用降低</p>
+<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><p><strong>缓存穿透</strong>是指查询一个<strong>数据库一定不存在的数据</strong>。</p>
+<p>正常的使用缓存流程大致是：数据查询先到缓存中查找key，发现key不存在或者已经过期，再对数据库进行查询，并把查询到的对象，数据存到缓存中。但是如果数据库为空，则不放进缓存。</p>
+<p>缓存穿透：一个数据缓存中不存在，导致请求的数据走数据库，就会使得后端存储负载加大，然而数据库中也不存在。这种情况下如果有攻击者故意多次请求一个不存在的主键id（比如负数id），而这个负数id在数据库根本就没有，就有可能搞垮整个数据库，甚至使整个服务瘫痪。</p>
+<p>造成缓存穿透的基本原因有两个。</p>
+<ul>
+<li>自身业务代码或者数据出现问题（例如：set 和 get 的key不一致）</li>
+<li>一些恶意攻击、爬虫等造成大量空命中（爬取线上商城商品数据，超大循环递增商品的ID）</li>
+</ul>
+<h1 id="缓存穿透解决方案"><a href="#缓存穿透解决方案" class="headerlink" title="缓存穿透解决方案"></a>缓存穿透解决方案</h1><h2 id="缓存空对象"><a href="#缓存空对象" class="headerlink" title="缓存空对象"></a>缓存空对象</h2><p>缓存空对象是指：在持久层没有命中的情况下，仍然将数据进行缓存。把key的value设置为null，并设置过期时间。</p>
+<h4 id="缓存空对象带来的问题"><a href="#缓存空对象带来的问题" class="headerlink" title="缓存空对象带来的问题"></a>缓存空对象带来的问题</h4><ol>
+<li>缓存空对象设置key的value为空，但是仍然是占用了内存空间的，对空值做缓存，缓存中还需要去保存这个空值的key，消耗内存空间。因此我们要对这种空值设置一个过期时间，让一定时间过后自动过期。</li>
+<li>缓存空对象可能带来缓存和数据库的数据有一段时间窗口内的不一致，可能会对业务造成影响。比如设置过期时间为1分钟，如果此时数据库又添加了这个数据，那么这段时间就会出现缓存和数据库的数据不一致。此时，可以利用消息系统或者其他方式清除缓存中的空对象。</li>
+</ol>
+<h2 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h2><blockquote>
+<p>布隆过滤器参照知乎[@YoungChen][<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/43263751]%E7%9A%84%E6%96%87%E7%AB%A0%EF%BC%8C%E8%AE%B2%E5%BE%97%E9%9D%9E%E5%B8%B8%E6%B8%85%E6%A5%9A">https://zhuanlan.zhihu.com/p/43263751]的文章，讲得非常清楚</a></p>
+</blockquote>
+<p>布隆过滤器（Bloom Filter）本质是其实是一种概率型数据结构。它可以高效的查询和插入，但是不能删除。可以<strong>用来判断某个数一定不存在或者可能存在</strong>。</p>
+<p>跟传统的list、set、map相比，因为布隆过滤器本质存的是二进制比特位，且不存key，所以它占用的空间更小。跟HashMap相比，HashMap可以根据特定的key查询到对应的value值，并且判断key是否存在的时间复杂度也很低O(1)。但是，HashMap既需要存key，还需要存value值，存储容量比较高，并且考虑到HashMap的负载因子，HashMap一般情况下会有空间的浪费的。数据一旦过高，用HashMap占用的空间可就太高的。</p>
+<p>布隆过滤器的虽然占用的空间小，但是它不确定的判断某个key一定存在，只能说概率。</p>
+<ul>
+<li>实现原理</li>
+</ul>
+<p>布隆过滤器就是一个bit向量或者说bit数组。</p>
+<p><img src="/../../img/markdown_img/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9.assets/image-20211122091819486.png" alt="image-20211122091819486"></p>
+<p>如果我们要映射一个值到布隆过滤器中，我们需要使用<strong>多个不同的哈希函数</strong>生成<strong>多个哈希值，</strong>并对每个生成的哈希值指向的 bit 位置 1，例如针对值 “baidu” 和三个不同的哈希函数分别生成了哈希值 1、4、7，则上图转变为：</p>
+<p><img src="/../../img/markdown_img/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9.assets/image-20211122091912029.png" alt="image-20211122091912029"></p>
+<p>我们现在再存一个值 “tencent”，如果哈希函数返回 3、4、8 的话，图继续变为：</p>
+<p><img src="/../../img/markdown_img/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9.assets/image-20211122092135911.png" alt="image-20211122092135911"></p>
+<p>4这个bit位被“baidu”和“tencent”两都置1，因为4这个bit位是被覆盖了的。那么我们现在想查询一个值是否存在，假设这个值通过哈希函数映射到了1，5，7三个bit位上。发现5这个bit位上的值是0，那么就说明这个值一定是不存在的。如果它存在，则它的映射到的所有bit位都必须为1。</p>
+<p>现在我们要查询”baidu”是否存在。通过哈希函数我们得到三个bit位1,4,7。我们发现这三个bit上全都是1，尽管如此，我们仍然不能说”baidu”这个值必然是存在的，因为不要忘记了4这个bit位，”tencent”也存为1过。那么或许有个数，它根本就没进来存过，却意外的被其他的key一起把这个数的bit位全置为1了，所以布隆过滤器不能认定一个key一定存在。</p>
+<ul>
+<li>哈希函数的个数选择和布隆过滤器的长度选择</li>
+</ul>
+<p>如果哈希函数的个数选择太少了，bit位的覆盖率就会变高，误报率就会变高。</p>
+<p>如果哈希函数的个数选择太多了，每个bit位置1的速度就会加快，并且每次的哈希函数计算就是一个消耗资源的行为，布隆过滤器的效率就会降低。</p>
+<p>如果布隆过滤器的长度设置太小了，那么每个bit位置1的速度也会加快，误报率同样会增加。</p>
+<p>如果布隆过滤器的长度设置太大了，那么就意味着更多的空间。</p>
+<p>对于哈希函数的个数和布隆过滤器的长度选择有一个公式：</p>
+<p>m：布隆过滤器的长度    k：哈希函数的个数    n：插入元素的个数    p：误报率</p>
+<p><img src="/../../img/markdown_img/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9.assets/image-20211122093555700.png" alt="image-20211122093555700"></p>
+<h2 id="Redis缓存穿透的布隆过滤器的解决方案"><a href="#Redis缓存穿透的布隆过滤器的解决方案" class="headerlink" title="Redis缓存穿透的布隆过滤器的解决方案"></a>Redis缓存穿透的布隆过滤器的解决方案</h2><p>根据上述布隆过滤器的描述，那么我们可以很好的将Redis的缓存穿透和布隆过滤器联系起来。</p>
+<p>一个请求先去Redis缓存中去请求数据，缓存中并不存在，接着我们让这个请求进入布隆过滤器，去判断这个值是否存在，如果存在则再让这个请求进入到数据库中去查询。</p>
+<p><img src="/../../img/markdown_img/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9.assets/image-20211122095540985.png" alt="image-20211122095540985"></p>
+<p>布隆过滤器的特性就是占用的空间相对较小，并且查询速度相比数据库也比较快，能支撑的QPS更高，可以很好的保护数据库。</p>
+<p>分布式环境下，数据放到内存中来处理， 属于local cache 问题；如果想要保持一致性，可以通过数据变更时，群发MQ消息的方式让应用服务器实例更新。这个方案在数据变更频次很低而访接口QPS极高时，可以尝试。否则，当有实例 bloom filter数据未更新时， 在未更新这个间隔内，用户请求路由到不同实例，就会出现一下能查到，一下查不到奇怪现象。 如果数据变更频次很低时，也可以考虑把bloom fliter 数据写到配置中心里，让配置中心把数据推送到应用实例上。</p>
+<h2 id="两种解决方案的对比"><a href="#两种解决方案的对比" class="headerlink" title="两种解决方案的对比"></a>两种解决方案的对比</h2><table>
+<thead>
+<tr>
+<th>解决缓存穿透</th>
+<th>适用场景</th>
+<th>维护成本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>缓存空对象</td>
+<td>数据命中不高<br />数据变更频次高</td>
+<td>代码维护简单<br />需要过多的缓存空间来存key和null值<br />数据不一致</td>
+</tr>
+<tr>
+<td>布隆过滤器</td>
+<td>数据命中不高<br />数据变更频次低</td>
+<td>代码维护复杂<br />缓存空间占用少</td>
+</tr>
+</tbody></table>
+<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><p>缓存击穿是指一个热点key，并发量特别的大，大并发集中对这一个点进行访问，当这个key在失效的瞬间，持续的大并发就击穿缓存，直接请求走数据库。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
+<li><p>设置热点数据过期时间</p>
+<p>让过期时间更加均匀一点或者永不过期，这样就解决了热点key过期后的问题。当然这也会带来一些空间的问题。</p>
+</li>
+<li><p>加互斥锁</p>
+<p>分布式锁：使用分布式锁，保证对于每个key同时只有一个线程去查询后端服务，其他线程没有获得分布式锁的权限，因此需要等待。这种方式将高并发的压力转到分布式锁上，因此对分布式锁的考验很大。这样就会导致高并发场景下的性能降低。</p>
+</li>
+</ul>
+<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><p>缓存雪崩是指：缓存不可用Redis宕机或者说大批缓存集体失效，大量的请求同时达到数据库，造成数据库系统雪崩。</p>
+<p>产生雪崩的原因之一，比如马上就要到双十二零点，很快就会迎来一波抢购，这波商品时间比较集中的放入了缓存，假设缓存一个小时。那么到了凌晨一点的时候，这批商品的缓存就都过期了。而对这批商品的访问查询，都落到了数据库上，对于数据库而言，就会产生周期性的压力波峰。于是所有的请求都会达到存储层，存储层的调用量会暴增，造成存储层也会挂掉的情况。</p>
+<p><img src="/../../img/markdown_img/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9.assets/image-20211122100233282.png" alt="image-20211122100233282"></p>
+<h2 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h2><ul>
+<li>针对缓存不可用这种情况可以提高缓存层的可用性，比如设计成分布式，Redis集群，配置哨兵模式和cluster实现。</li>
+<li>服务降级（限流降级）：关闭一些服务，保证主要的服务可用。</li>
+<li>数据预热：在正式部署之前，先把可能的数据先预访问一遍，这样部分可能大量访问的数据就会加载到缓存中，在即将发生大并发访问前手动触发加载缓存不同的key，设置不同的过期时间，让缓存失效的时间尽量均匀。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/">http://ins1mn1a.github.io/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="/../../img/background_img/top_img1.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/"><img class="next-cover" src="/../../img/background_img/top_img1.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis 持久化及优化方式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/" title="Redis 持久化及优化方式"><img class="cover" src="/../../img/background_img/top_img1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-17</div><div class="title">Redis 持久化及优化方式</div></div></a></div><div><a href="/2021/12/16/redis/Redis%E4%B8%BB%E4%BB%8E%E5%93%A8%E5%85%B5%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98/" title="Redis 主从哨兵脑裂"><img class="cover" src="/../../img/background_img/cute2.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-16</div><div class="title">Redis 主从哨兵脑裂</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">1.</span> <span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">缓存穿透解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BA%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.1.</span> <span class="toc-text">缓存空对象</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BA%E5%AF%B9%E8%B1%A1%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.1.0.1.</span> <span class="toc-text">缓存空对象带来的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">布隆过滤器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E7%9A%84%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.3.</span> <span class="toc-text">Redis缓存穿透的布隆过滤器的解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">2.4.</span> <span class="toc-text">两种解决方案的对比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">3.</span> <span class="toc-text">缓存击穿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">3.1.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">4.</span> <span class="toc-text">缓存雪崩</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="toc-number">4.1.</span> <span class="toc-text">解决方案</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" title="Redis 缓存穿透击穿与雪崩"><img src="/../../img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Redis 缓存穿透击穿与雪崩"/></a><div class="content"><a class="title" href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" title="Redis 缓存穿透击穿与雪崩">Redis 缓存穿透击穿与雪崩</a><time datetime="2021-12-17T12:31:22.721Z" title="发表于 2021-12-17 20:31:22">2021-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/" title="Redis 持久化及优化方式"><img src="/../../img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Redis 持久化及优化方式"/></a><div class="content"><a class="title" href="/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/" title="Redis 持久化及优化方式">Redis 持久化及优化方式</a><time datetime="2021-12-17T12:28:06.258Z" title="发表于 2021-12-17 20:28:06">2021-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/SpringSecurity/SpringSecurity+Jwt%E6%95%B4%E5%90%88/" title="SpringSecurity+Jwt整合"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="SpringSecurity+Jwt整合"/></a><div class="content"><a class="title" href="/2021/12/17/SpringSecurity/SpringSecurity+Jwt%E6%95%B4%E5%90%88/" title="SpringSecurity+Jwt整合">SpringSecurity+Jwt整合</a><time datetime="2021-12-17T12:15:04.707Z" title="发表于 2021-12-17 20:15:04">2021-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/SpringSecurity/SpringSecurity/" title="SpringSecurity"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="SpringSecurity"/></a><div class="content"><a class="title" href="/2021/12/17/SpringSecurity/SpringSecurity/" title="SpringSecurity">SpringSecurity</a><time datetime="2021-12-17T12:15:04.704Z" title="发表于 2021-12-17 20:15:04">2021-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/16/redis/Redis%E4%B8%BB%E4%BB%8E%E5%93%A8%E5%85%B5%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98/" title="Redis 主从哨兵脑裂"><img src="/../../img/background_img/cute2.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Redis 主从哨兵脑裂"/></a><div class="content"><a class="title" href="/2021/12/16/redis/Redis%E4%B8%BB%E4%BB%8E%E5%93%A8%E5%85%B5%E8%84%91%E8%A3%82%E9%97%AE%E9%A2%98/" title="Redis 主从哨兵脑裂">Redis 主从哨兵脑裂</a><time datetime="2021-12-16T01:31:22.853Z" title="发表于 2021-12-16 09:31:22">2021-12-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">if feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
