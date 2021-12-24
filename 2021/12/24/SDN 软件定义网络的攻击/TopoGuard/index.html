@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SDN的TopoGuard解决方案 | ins1mn1a</title><meta name="keywords" content="SDN"><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="针对软件定义网络SDN的主机位置劫持攻击、链路伪造攻击等攻击的TopoGuard体系架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDN的TopoGuard解决方案">
+<meta property="og:url" content="http://ins1mn1a.github.io/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="针对软件定义网络SDN的主机位置劫持攻击、链路伪造攻击等攻击的TopoGuard体系架构">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/top_img1.jpeg">
+<meta property="article:published_time" content="2021-12-24T14:18:32.448Z">
+<meta property="article:modified_time" content="2021-12-24T14:32:58.141Z">
+<meta property="article:author" content="ins1mnia">
+<meta property="article:tag" content="SDN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/top_img1.jpeg"><link rel="shortcut icon" href="/img/background_img/%E7%8E%89%E5%AD%90.icon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SDN的TopoGuard解决方案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-24 22:32:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../img/background_img/top_img1.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SDN的TopoGuard解决方案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-24T14:18:32.448Z" title="发表于 2021-12-24 22:18:32">2021-12-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-24T14:32:58.141Z" title="更新于 2021-12-24 22:32:58">2021-12-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/SDN%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C/">SDN软件定义网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SDN的TopoGuard解决方案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="SDN攻击和对策"><a href="#SDN攻击和对策" class="headerlink" title="SDN攻击和对策"></a>SDN攻击和对策</h1><h2 id="SDN攻击"><a href="#SDN攻击" class="headerlink" title="SDN攻击"></a>SDN攻击</h2><h3 id="1-主机位置劫持攻击"><a href="#1-主机位置劫持攻击" class="headerlink" title="1. 主机位置劫持攻击"></a>1. 主机位置劫持攻击</h3><p>对于主机位置的改变，由于SDN控制器缺乏对传输的数据包认证步骤，无法保证拓扑信息的真实性，攻击者通过发送伪装的主机消息，就可以实现对网络中的主机的伪装。如下图所示，攻击者向SDN交换机发送一个全新的数据包，交换机会上报到控制器，因为无法认证数据包的真实性，控制器会依据这个数据包默认网络服务器位置发生移动，然而实际上由于拓扑管理信息中该服务器的位置已经变更为攻击者所在的位置，导致后续正常主机无法访问该服务器。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211118094512908.png" alt="image-20211118094512908"></p>
+<h3 id="2-链路伪造攻击"><a href="#2-链路伪造攻击" class="headerlink" title="2. 链路伪造攻击"></a>2. 链路伪造攻击</h3><p>由于目前广泛使用的SDN控制器源码是开源的，因此任何人都可以获取LLDP包格式和每个字段的语义，并且交换机每个端口都可以发送链路层发现协议（LLDP）包，包括连接着主机的端口。</p>
+<h4 id="伪造LLDP包"><a href="#伪造LLDP包" class="headerlink" title="伪造LLDP包"></a>伪造LLDP包</h4><p>攻击者可以通过监控SDN交换机的流量然后伪造出相应的LLDP包，后续伪造的LLDP将会被发送到控制器，因此控制器便更新一条攻击者伪造的链路。</p>
+<h4 id="重放LLDP包"><a href="#重放LLDP包" class="headerlink" title="重放LLDP包"></a>重放LLDP包</h4><p>从一个目标交换机接收到一个LLDP数据包时，攻击者将直接重放到另一目标交换机，而无需进行任何修改。如下图，攻击者将收到的LLDP包通过隧道、物理链路等方式将LLDP包发送给另一目标交换机，这样攻击者便构造了一个虚假的拓扑视图。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211118094555756.png" alt="image-20211118094555756"></p>
+<h3 id="3-拒绝服务攻击"><a href="#3-拒绝服务攻击" class="headerlink" title="3. 拒绝服务攻击"></a>3. 拒绝服务攻击</h3><p>为了避免boardcast strom，OpenFlow控制器提供生成树服务。当网络拓扑更新时，会触发生成树服务来阻止冗余端口。这种能力可能会被攻击者利用，以发动拒绝服务攻击。比如通过给现有拓扑注入一个虚假的链接，攻击者就可以借用生成树服务来杀死正常开关端口。</p>
+<p>生成树算法总是排除连接最大DPID交换机的链接。攻击者拥有几个连接到入口交换机的几个受损主机，通过收听LLDP数据包，对手就可以获得两个入口交换机的的DPID。然后，攻击控制受损主机通过较低的DPID连接到入口交换机，并注入假LLDP以与目标交换机宣布链接。</p>
+<p>最终将导致两种情况：如果聚合交换机的DPID小于所选交换机的DPID，则攻击者可以关闭目标交换机的任意端口，如图a所示；如果所选择的交换机具有最小的DPID，则目标交换机和聚合交换机之间的链路被排除在生成树之外，并且相应端口也会被阻塞，如图b所示。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211118095722939.png" alt="image-20211118095722939"></p>
+<h3 id="4-中间人攻击"><a href="#4-中间人攻击" class="headerlink" title="4. 中间人攻击"></a>4. 中间人攻击</h3><p>虚假的链路可以干扰最短路径路由服务。攻击者可以构建一个LLDP channel来欺骗OpenFlow控制器，让控制器感觉在两个目标交换机之间还存在一个内部链路（实际上并不存在）。一旦控制器注意到了链路，它就会根据这个受到污染的拓扑信息来重新计算最短路径。这样所有与虚假链路有连接的路线都被攻击者进行了污染。但是，OpenFlow与传统的以太网交换机不同，它并不会修改数据包的源MAC地址。因此为了规避可能的异常检测，我们必须在重放LLDP和普通数据包的时保留源MAC地址。</p>
+<h2 id="防御策略"><a href="#防御策略" class="headerlink" title="防御策略"></a>防御策略</h2><h3 id="1-静态防御策略"><a href="#1-静态防御策略" class="headerlink" title="1. 静态防御策略"></a>1. 静态防御策略</h3><p>静态防御策略是预先手动配置/管理主机位置和链路信息（比如，将主机标识符（比如MAC地址）分配给一个特定的交换机端口），然后每当有新的改变时（new addition or removal）手动验证和修改。显然，静态防御策略并不是一个很好的选择，因为手动的去管理是特别繁琐的，容易出错，并且在实践中也不好扩展。特别地，它并不适用于动态的并且有可扩展性的需求的SDN网络。</p>
+<h3 id="2-动态防御策略TopoGuard"><a href="#2-动态防御策略TopoGuard" class="headerlink" title="2. 动态防御策略TopoGuard"></a>2. 动态防御策略TopoGuard</h3><h4 id="2-1-主机位置劫持攻击的动态防御策略"><a href="#2-1-主机位置劫持攻击的动态防御策略" class="headerlink" title="2.1 主机位置劫持攻击的动态防御策略"></a>2.1 主机位置劫持攻击的动态防御策略</h4><p>主机位置劫持攻击的问题主要在于，当主机位置更新的时候，OpenFlow控制器缺乏了对主机标识符的验证。</p>
+<h5 id="2-1-1-主机实体认证"><a href="#2-1-1-主机实体认证" class="headerlink" title="2.1.1 主机实体认证"></a>2.1.1 主机实体认证</h5><p>这是一个密码学的加密解决方案：添加额外的公钥来验证主机。当一个主机需要改变它的位置的时候，它就把新的位置信息通过私钥加密到数据包中没使用的部分（比如VLAN ID or ToS）。</p>
+<p>这个方案理论上确实是可行的，可以解决恶意主机的profile伪造，因为攻击者无法获取目标主机的私钥。但是在现实上，这种方案需要增加额外的存储开销来保存OpenFlow控制器的公钥，以及用于处理每个Packet-In数据包的计算开销。并且，所有主机的密钥管理和动态添加/修改也会带来额外的开销和成本。此外，这种方法需要在每个主机上修改实现，实际部署上非常的繁琐和困难。</p>
+<h5 id="2-1-2-主机迁移合法性的验证"><a href="#2-1-2-主机迁移合法性的验证" class="headerlink" title="2.1.2 主机迁移合法性的验证"></a>2.1.2 主机迁移合法性的验证</h5><blockquote>
+<p>主机迁移完成的条件：</p>
+</blockquote>
+<ul>
+<li>主机迁移的前置条件是OpenFlow控制器必须接收到一个Port_Down信号在主机迁移完成之前</li>
+<li>主机迁移的后置条件是主机在完成迁移之后，对先前位置的主机实体的访问是不可达的。</li>
+</ul>
+<p>因此，基于上述两种情况，我们可以通过检查前置条件和后置条件来验证主机迁移的合法性。若有一个条件不满足，那么可能原主机位置被劫持，与控制器进行通信的主机是攻击者伪造的主机，这样就会被检测到。这个方法也增加了额外的开销，但是比较上面基于公私钥的实体认证相比，显然此方法更加轻量级。</p>
+<p>在面向SDN的车载边缘计算中我们也可以利用这种模型，来对抗主机位置劫持的攻击。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211224222850617.png" alt="image-20211224222850617"></p>
+<h4 id="2-2-链路伪造攻击的动态防御策略"><a href="#2-2-链路伪造攻击的动态防御策略" class="headerlink" title="2.2 链路伪造攻击的动态防御策略"></a>2.2 链路伪造攻击的动态防御策略</h4><blockquote>
+<p>链路伪造的攻击主要在两个方面：</p>
+</blockquote>
+<ul>
+<li><p>在OpenFlow网络的链路发现过程中，LLDP包的完整性/来源可能遭到破坏</p>
+</li>
+<li><p>受损主机参与LLDP传播路径</p>
+<h5 id="2-2-1-LLDP数据包的身份验证"><a href="#2-2-1-LLDP数据包的身份验证" class="headerlink" title="2.2.1 LLDP数据包的身份验证"></a>2.2.1 LLDP数据包的身份验证</h5><p>解决这个问题的一个方案是在LLDP数据包中添加额外的身份验证器TLVs。比如，我们可以在LLDP数据包中添加一个有控制器签名的TLV，并在接收到LLDP数据包时检查签名。签名TLV是通过LLDP数据包中的DPID和端口号都计算的。这样，攻击者很难操纵LLDP数据包。然而这种方法，无法抵抗基于LLDP重放/隧道的方式的链路伪造攻击。</p>
+<h5 id="2-2-2-交换机端口属性的验证"><a href="#2-2-2-交换机端口属性的验证" class="headerlink" title="2.2.2 交换机端口属性的验证"></a>2.2.2 交换机端口属性的验证</h5><p>如果OpenFlow链路发现过程中没有主机参与到LLDP的传播，那么就可以判断没有攻击者进行链路伪造。因此可以检查是否有主机驻留在LLDP的链路传播中从而检测是否有攻击者参与。</p>
+<p>我们可以增加一些额外的逻辑来跟踪来自不同交换机端口的流量，已决定哪个设备连接到哪个端口。如果 OpenFlow 控制器从特定的交换机端口检测到主机生成的流量（例如DNS），则我们将该端口的设备类型设置为 HOST。否则，当从这些端口接收到 LLDP 数据包时，我们将这些交换机端口指定为交换机。在 OpenFlow 网络中，这两个类型是相互排斥的，因为 LLDP 只能在交换机内部链路端口和连接到OpenFlow控制器的端口上传输。</p>
+<p>这种方法的一个假设是：受损的主机不是一个实际的交换机，因此将生成常规的主机生成的流量（如ARP，DNS）。这假设也确实是合理的，在实践中大多数情况下也成立。虽然攻击者也可以禁用受损主机或者虚拟机中的所有主机生成流量，但它这样多少页破坏了主机的正常网络活动功能，无异于暴露自己，使得正常机器用户注意到。</p>
+</li>
+</ul>
+<h2 id="TopoGuard"><a href="#TopoGuard" class="headerlink" title="TopoGuard"></a>TopoGuard</h2><p>TopoGuard的基本思想是通过修复上一节所提到的安全漏洞来确保控制器的安全。</p>
+<h3 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h3><p>下图展示了TopoGuard防御系统的体系结构。The Topology Update Checker在探测到拓扑更新后会去验证主机迁移的合法性，LLDP数据包的完整性和来源以及交换机端口属性。具体来说，Port Manager监视 OpenFlow 消息，以跟踪存储在Port Property（端口属性）中的交换机端口动态。然后，Port Property将用于推理拓扑更新的可信性。Host Prober（主机探测）用来测试在OpenFlow网络中特点位置的主机的活动性，并且判断主机迁移的合法性。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211224222838902.png" alt="image-20211224222838902"></p>
+<h3 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h3><h4 id="端口属性管理"><a href="#端口属性管理" class="headerlink" title="端口属性管理"></a>端口属性管理</h4><p>为了推断拓扑更新的有效性，给OpenFlow控制器中每个交换机端口增加了额外属性。包括：</p>
+<p>设备类型（Device Type）、主机列表（HOST List）和标识（SHUT_DOWN_FLAG）。</p>
+<ol>
+<li><p>设备类型</p>
+<p>设备类型指的是一个特定交换机端口连接到的设备类型。该值可以是任意值ANY，交换机SWITCH，主机HOST。初始值是ANY，它将根据后续流量切换到SWITCH或者HOST。当端口管理器从具有设备类型为ANY的交换机端口接收LLDP数据包时，它会将其类型更改为SWITCH。同样，若接收到任何 first-hop 主机流量时，交换机端口的设备类型被设置为HOST。相反，当接收到端口状态信息中指示的Port_Down信号时，HOST和交换机端口值被设置为ANY。如果端口管理器检测到HOST端口的LLDP包或者交换机端口的first-hop主机流量包，则会引发攻击警报并通知拓扑更新检查器以防止相关拓扑更新。这种防御方法的认为LLDP数据包仅被设计为通过数据平面上的交换机内部链路端口。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211224222829755.png" alt="image-20211224222829755"></p>
+</li>
+</ol>
+<ul>
+<li><p>设备类型被判定为HOST说明交换机端口所连接到的设备类型是一个主机，而当端口管理器检测到主机端口发送的是LLDP数据包，那么可以认定发生了链路伪造的攻击。</p>
+</li>
+<li><p>设备类型被判定为SWITCH说明交换机端口所连接到的设备类型是一个交换机，而当端口管理器检测到主机端口发送的是主机流量数据包，那么就可以认为在链路发现的过程中有主机的参与，即是发生了攻击。</p>
+</li>
+</ul>
+<ol start="2">
+<li><p>主机列表</p>
+<p>端口属性管理的一个挑战是<strong>如何确定端口的设备类型为HOST。</strong>尽管上述中我们认为若接收到任何first-hop 主机流量时，交换机端口的设备类型被设置为HOST。但是在实际上，发现不同的OpenFlow交换机可能会为特定的主机流发出多个包内消息的副本，即<strong>OpenFlow控制器将从交换机内部链路端口接收主机流量。</strong></p>
+<p>为了解决这个问题，在每个交换机端口的端口属性中维护<strong>主机列表</strong>，其中包含主机实体（MAC地址形式）。当接收到Packet-In消息时，端口管理器<strong>在现有端口属性的主机列表中定位主机实体。如果没有找到，则将流量视为first-hop流量，并将源MAC地址记录在入口交换机端口的端口属性的主机列表中。</strong></p>
+</li>
+<li><p>SHUT_DOWN_FLAG</p>
+<p>主机列表的另一个作用是验证主机迁移的可信度。主机迁移的前置条件是控制器在主机迁移完成之前接收到一个Port_Down信号。此时一旦检测到该<strong>端口关闭</strong>，我们将为交换机端口的主机列表中的主机<strong>设置SHUT_DOWN_FLAG</strong>。当端口管理器从该端口接收到相关的主机流量时，可以禁用SHUT_DOWN_FLAG。此外，我们还可以验证主机列表中的SHUT_DOWN_FLAG，以验证主机迁移。</p>
+</li>
+</ol>
+<h4 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h4><p>我们还可以利用主机探测器（Host Prober）来验证主机迁移的后置条件，即主机迁移完成后在前一个位置无法访问主机。</p>
+<p>主机探测器向主机的前一个位置发出一个主机探测数据包，例如：IMCPEcho请求，并且设置一个合理的timeout（1s）等待响应。为了确保响应的成功交付，主机探测器还安装了一个流规则，以将 ICMP 响应引导回 OpenFlow 控制器。</p>
+<h4 id="拓扑更新验证"><a href="#拓扑更新验证" class="headerlink" title="拓扑更新验证"></a>拓扑更新验证</h4><p>拓扑更新检查器将验证拓扑更新的正确性，包括主机迁移和新的链路发现。</p>
+<ul>
+<li><p><input disabled="" type="checkbox">  检测到主机迁移</p>
+<p>检查器将引用<strong>端口属性</strong>来检查该<strong>前置条件</strong>，并指示<strong>主机探测</strong>程序验证该<strong>后置条件</strong>。</p>
+</li>
+<li><p><input disabled="" type="checkbox">  验证链路发现</p>
+<p>第一个任务是确保 LLDP 的完整性/来源。为此，我们在一个LLDP 数据包中放置一个签名 TLV，这是一个 DPID 和端口号的加密哈希值。一旦发现一个新链路，拓扑更新检查器就会对已签名的哈希值 TLV 执行额外的验证逻辑。然后，拓扑更新检查器检测主机是否位于 LLDP 传播的路径上。通过检查新链路的交换机端口的设备类型来完成。因此，HOST 端口中涉及的任何内部链接更新都将被拒绝，并触发攻击警报。</p>
+</li>
+</ul>
+<h2 id="传统网络的具体攻击方式"><a href="#传统网络的具体攻击方式" class="headerlink" title="传统网络的具体攻击方式"></a>传统网络的具体攻击方式</h2><h3 id="主机位置劫持"><a href="#主机位置劫持" class="headerlink" title="主机位置劫持"></a>主机位置劫持</h3><p>一个臭名昭著的主机位置劫持攻击是以太网网络中的 <strong>ARP 缓存毒化攻击</strong>。即攻击者发送伪造的 ARP 消息，以将目标主机的 IP 地址与恶意主机 的 MAC 地址关联起来。通过这样做，对手可以劫持目标主机的实体，这通常是一个网关。但是，ARP 缓存中毒攻击与主机位 置劫持攻击有几个不同，如下表所示。首先，ARP 高速缓存中 毒的攻击范围仅限于一个广播域，即对手必须与其目标保持在 同一广播域内。相比之下，对手可以在 OpenFlow 网络的任何位置发起主机位置劫持攻击。第二，除了 ARP 应答数据包外，主 机位置劫持攻击还可以利用几乎各种数据包，如 ICMPEcho、UDP 和 TCP，来篡夺目标主机的位置。在这一点上，主机位置劫持攻击可以隐藏在正常流量中，以避开 NIDS（网络入侵检测）。同样从防御的角度来看，传统的 ARP 缓存中毒缓解策略， 如静态 ARP 条目，可能不适合直接应用于 SDN 网络，因为其静态配置破坏了 OpenFlow 网络的动态处理能力。例如，跟踪各种 OpenFlow 访问点之间的主机迁移。为了抵御主机位置劫持攻击以及跟踪网络动态，在本文中，我们利用 OpenFlow 的特定功能来动态验证主机迁移。</p>
+<p><img src="/../../img/markdown_img/TopoGuard.assets/image-20211224222820222.png" alt="image-20211224222820222"></p>
+<h3 id="链路伪造"><a href="#链路伪造" class="headerlink" title="链路伪造"></a>链路伪造</h3><p>在传统网络中，类似于链路伪造攻击的攻击是 <strong>STP 破坏</strong>（即 BPDU 伪造），即对手用最小的桥 ID 伪造 BPDUs，以抢占生成树的根。在伪造根之后，对手有可能精心策划拒绝服务或中间攻击。然而，STP 破坏攻击只会扰乱STP 的运行，而不是向网络拓扑中注入一个假的链路，以毒害整个网络操作。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/">http://ins1mn1a.github.io/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SDN/">SDN</a></div><div class="post_share"><div class="social-share" data-image="/img/background_img/top_img1.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/24/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/"><img class="prev-cover" src="/img/background_img/Irena.png" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">网络安全协议基础</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/SDN/"><img class="next-cover" src="/img/background_img/cute3.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Mininet的环境安装</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/SDN/" title="Mininet的环境安装"><img class="cover" src="/img/background_img/cute3.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-24</div><div class="title">Mininet的环境安装</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SDN%E6%94%BB%E5%87%BB%E5%92%8C%E5%AF%B9%E7%AD%96"><span class="toc-number">1.</span> <span class="toc-text">SDN攻击和对策</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SDN%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.</span> <span class="toc-text">SDN攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BB%E6%9C%BA%E4%BD%8D%E7%BD%AE%E5%8A%AB%E6%8C%81%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 主机位置劫持攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%93%BE%E8%B7%AF%E4%BC%AA%E9%80%A0%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 链路伪造攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%AA%E9%80%A0LLDP%E5%8C%85"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">伪造LLDP包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E6%94%BELLDP%E5%8C%85"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">重放LLDP包</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 拒绝服务攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 中间人攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.</span> <span class="toc-text">防御策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9D%99%E6%80%81%E9%98%B2%E5%BE%A1%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 静态防御策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E9%98%B2%E5%BE%A1%E7%AD%96%E7%95%A5TopoGuard"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 动态防御策略TopoGuard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E4%B8%BB%E6%9C%BA%E4%BD%8D%E7%BD%AE%E5%8A%AB%E6%8C%81%E6%94%BB%E5%87%BB%E7%9A%84%E5%8A%A8%E6%80%81%E9%98%B2%E5%BE%A1%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">2.1 主机位置劫持攻击的动态防御策略</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-1-%E4%B8%BB%E6%9C%BA%E5%AE%9E%E4%BD%93%E8%AE%A4%E8%AF%81"><span class="toc-number">1.2.2.1.1.</span> <span class="toc-text">2.1.1 主机实体认证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-2-%E4%B8%BB%E6%9C%BA%E8%BF%81%E7%A7%BB%E5%90%88%E6%B3%95%E6%80%A7%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-number">1.2.2.1.2.</span> <span class="toc-text">2.1.2 主机迁移合法性的验证</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E9%93%BE%E8%B7%AF%E4%BC%AA%E9%80%A0%E6%94%BB%E5%87%BB%E7%9A%84%E5%8A%A8%E6%80%81%E9%98%B2%E5%BE%A1%E7%AD%96%E7%95%A5"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">2.2 链路伪造攻击的动态防御策略</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-LLDP%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">1.2.2.2.1.</span> <span class="toc-text">2.2.1 LLDP数据包的身份验证</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%AB%AF%E5%8F%A3%E5%B1%9E%E6%80%A7%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-number">1.2.2.2.2.</span> <span class="toc-text">2.2.2 交换机端口属性的验证</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TopoGuard"><span class="toc-number">1.3.</span> <span class="toc-text">TopoGuard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Architecture"><span class="toc-number">1.3.1.</span> <span class="toc-text">Architecture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Design"><span class="toc-number">1.3.2.</span> <span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%B1%9E%E6%80%A7%E7%AE%A1%E7%90%86"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">端口属性管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">主机探测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%93%E6%89%91%E6%9B%B4%E6%96%B0%E9%AA%8C%E8%AF%81"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">拓扑更新验证</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%85%B7%E4%BD%93%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">传统网络的具体攻击方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E4%BD%8D%E7%BD%AE%E5%8A%AB%E6%8C%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">主机位置劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF%E4%BC%AA%E9%80%A0"><span class="toc-number">1.4.2.</span> <span class="toc-text">链路伪造</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/" title="网络安全协议基础"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="网络安全协议基础"/></a><div class="content"><a class="title" href="/2021/12/24/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/" title="网络安全协议基础">网络安全协议基础</a><time datetime="2021-12-24T14:35:34.968Z" title="发表于 2021-12-24 22:35:34">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/" title="SDN的TopoGuard解决方案"><img src="/img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="SDN的TopoGuard解决方案"/></a><div class="content"><a class="title" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/" title="SDN的TopoGuard解决方案">SDN的TopoGuard解决方案</a><time datetime="2021-12-24T14:18:32.448Z" title="发表于 2021-12-24 22:18:32">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/SDN/" title="Mininet的环境安装"><img src="/img/background_img/cute3.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Mininet的环境安装"/></a><div class="content"><a class="title" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/SDN/" title="Mininet的环境安装">Mininet的环境安装</a><time datetime="2021-12-24T14:17:39.120Z" title="发表于 2021-12-24 22:17:39">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" title="Redis 缓存穿透击穿与雪崩"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Redis 缓存穿透击穿与雪崩"/></a><div class="content"><a class="title" href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" title="Redis 缓存穿透击穿与雪崩">Redis 缓存穿透击穿与雪崩</a><time datetime="2021-12-17T12:31:22.721Z" title="发表于 2021-12-17 20:31:22">2021-12-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/" title="Redis 持久化及优化方式"><img src="/img/background_img/cute3.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Redis 持久化及优化方式"/></a><div class="content"><a class="title" href="/2021/12/17/redis/Redis%E6%8C%81%E4%B9%85%E5%8C%96%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%BC%8F/" title="Redis 持久化及优化方式">Redis 持久化及优化方式</a><time datetime="2021-12-17T12:28:06.258Z" title="发表于 2021-12-17 20:28:06">2021-12-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">if feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
