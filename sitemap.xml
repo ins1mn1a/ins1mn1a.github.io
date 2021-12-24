@@ -94,7 +94,7 @@
 
   <url>
     <loc>http://ins1mn1a.github.io/</loc>
-    <lastmod>2021-12-22</lastmod>
+    <lastmod>2021-12-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -102,14 +102,14 @@
   
   <url>
     <loc>http://ins1mn1a.github.io/tags/SpringSecurity/</loc>
-    <lastmod>2021-12-22</lastmod>
+    <lastmod>2021-12-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://ins1mn1a.github.io/tags/Redis/</loc>
-    <lastmod>2021-12-22</lastmod>
+    <lastmod>2021-12-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -118,14 +118,14 @@
   
   <url>
     <loc>http://ins1mn1a.github.io/categories/SpringSecurity/</loc>
-    <lastmod>2021-12-22</lastmod>
+    <lastmod>2021-12-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://ins1mn1a.github.io/categories/Redis/</loc>
-    <lastmod>2021-12-22</lastmod>
+    <lastmod>2021-12-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
