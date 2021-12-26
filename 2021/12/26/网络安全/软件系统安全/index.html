@@ -1,0 +1,542 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>软件系统安全 | ins1mn1a</title><meta name="keywords" content="软件系统安全"><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="软件，软件危机，软件缺陷与漏洞，软件漏洞的发现与利用，软件漏洞检测方法，代码分析工具，恶意代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件系统安全">
+<meta property="og:url" content="http://ins1mn1a.github.io/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="软件，软件危机，软件缺陷与漏洞，软件漏洞的发现与利用，软件漏洞检测方法，代码分析工具，恶意代码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/Irena.png">
+<meta property="article:published_time" content="2021-12-26T14:39:00.240Z">
+<meta property="article:modified_time" content="2021-12-26T14:39:51.370Z">
+<meta property="article:author" content="ins1mnia">
+<meta property="article:tag" content="软件系统安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/Irena.png"><link rel="shortcut icon" href="/img/background_img/%E7%8E%89%E5%AD%90.icon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '软件系统安全',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-26 22:39:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../img/background_img/top_img1.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">软件系统安全</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-26T14:39:00.240Z" title="发表于 2021-12-26 22:39:00">2021-12-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-26T14:39:51.370Z" title="更新于 2021-12-26 22:39:51">2021-12-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">软件系统安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="软件系统安全"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="1-软件、程序、软件工程、软件系统、软件质量"><a href="#1-软件、程序、软件工程、软件系统、软件质量" class="headerlink" title="1.   软件、程序、软件工程、软件系统、软件质量"></a>1.   软件、程序、软件工程、软件系统、软件质量</h3><p>软件：程序+文档 程序：算法+数据结构</p>
+<p>软件工程包含的研究内容：软件开发模型、软件开发方法，软件支持过程，软件管理过程。</p>
+<p>软件系统是指由系统软件、支撑软件和应用软件组成的计算机软件系统，它是计算机系统中由软件组成的部分。</p>
+<p>软件质量是指软件符合</p>
+<ul>
+<li>明确定义的功能和性能需求</li>
+<li>明确规定的开发标准和准则</li>
+<li>满足隐含要求的其它特性的程度</li>
+</ul>
+<p>软件质量是反映软件产品满足规定和潜在需求能力的特性的总和，描述和评价软件产品质量的一组属性常称为软件质量特性。</p>
+<h3 id="2-软件构造过程存在哪些安全隐患"><a href="#2-软件构造过程存在哪些安全隐患" class="headerlink" title="2.   软件构造过程存在哪些安全隐患"></a>2.   软件构造过程存在哪些安全隐患</h3><p>软件安全主要包括的三个方面：</p>
+<p>软件自身安全(软件缺陷与漏洞)：软件在开发时可能由于不安全编码等因素造成的软件在特定方面的缺陷与漏洞</p>
+<p>恶意软件攻击：攻击者会利用软件的漏洞植入恶意代码，或者通过恶意的软件病毒比如木马，后门，蠕虫等等对系统进行攻击</p>
+<p>软件逆向分析(软件破解)：通过对软件进行逆向分析，发现软件的注册机制，从而破解软件</p>
+<h3 id="3-软件系统存在安全问题的本因"><a href="#3-软件系统存在安全问题的本因" class="headerlink" title="3.   软件系统存在安全问题的本因"></a>3.   软件系统存在安全问题的本因</h3><p>在软件设计之处，并没有结合到实际完全考虑到软件自身运行情况和可能面临的互联网环境下的复杂性，导致软件开发后存在不少的漏洞与缺陷，在面临异常环境时无法按照正常的预期的流程运行，降低了软件的动态行为可信性。</p>
+<h3 id="4-从软件工程的视角如何预防软件系统安全缺陷"><a href="#4-从软件工程的视角如何预防软件系统安全缺陷" class="headerlink" title="4.   从软件工程的视角如何预防软件系统安全缺陷"></a>4.   从软件工程的视角如何预防软件系统安全缺陷</h3><p>强化软件工程思想，将安全问题融入到软件的开发管理流程之中，在软件开发阶段尽量减少软件缺陷和漏洞的数量。采用标准的软件工程开发模型与流程，合理的风险评估，严格要求整个开发生命周期，做到软件缺陷与漏洞的最小化。</p>
+<h3 id="5-软件危机"><a href="#5-软件危机" class="headerlink" title="5.   软件危机"></a>5.   软件危机</h3><p>计算机软件的开发和维护过程中遇到的一系列严重问题。</p>
+<ul>
+<li>主要表现：<ul>
+<li>开发成本和进度估计不准确</li>
+<li>用户对已完成的软件不满意</li>
+<li>软件产品质量不高</li>
+<li>软件常常不可维护</li>
+<li>软件没有文档资料</li>
+<li>软件成本在总成本中占比上升</li>
+<li>软件开发生产率赶不上硬件的发展速度也跟不上计算机应用普及的速度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-可信软件"><a href="#6-可信软件" class="headerlink" title="6.可信软件"></a>6.可信软件</h3><p>软件系统的运行行为及其结果总是符合人们的预期，在受到干扰时仍能提供连续的服务。</p>
+<p>包含安全性(safety，security)、可靠性、可用性、可维护性、机密性、完整性、可控性等等。</p>
+<ul>
+<li>safety：软件运行不引起危险、灾难的能力</li>
+<li>security：软件系统对数据和信息提供保密性、 完整性、可用性、真实性保障的能力</li>
+<li>reliability：在给定的环境下特定的时间内软件无失效运行的概率</li>
+<li>maintainability：软件系统或部件修改错误、提高性能和属性，或是适应新环境的难易程度</li>
+<li>survivability：（网络）软件在受到攻击或失效时提供基本服务并在规定时间内恢复所有服务的能力</li>
+</ul>
+<h3 id="7-软件安全"><a href="#7-软件安全" class="headerlink" title="7.软件安全"></a>7.软件安全</h3><p>软件规模的扩大，软件开发集成和演化越来越复杂，导致软件产品推出时会有已知或者未知的缺陷。就好比现在操作系统都是先推出使用后续再慢慢维护，更新。</p>
+<p>软件的运行和开发环境从传统的静态转换到了动态的互联网环境下，安全风险更大。</p>
+<p>计算机病毒和黑客地下产业链活动，软件漏洞增多，传播速度加大。</p>
+<h3 id="8-信息与信息安全"><a href="#8-信息与信息安全" class="headerlink" title="8.信息与信息安全"></a>8.信息与信息安全</h3><p>信息以物质介质为载体，传递和反映世界各种事物存在的方式和运动状态的特征。信息是比较抽象的，有人说具有价值的消息就是信息，总之关键词就是价值、消除不确定性。</p>
+<p>信息安全是对信息的保密性、完整性和可用性的保持。</p>
+<h3 id="9-软件安全威胁及其来源；"><a href="#9-软件安全威胁及其来源；" class="headerlink" title="9.软件安全威胁及其来源；"></a>9.软件安全威胁及其来源；</h3><ul>
+<li>软件缺陷与漏洞：软件开发时对软件自身运行环境和外部因素考虑不周导致出现的缺陷和漏洞。</li>
+<li>恶意软件攻击：为了实现一些恶意目的的软件程序，比如计算机病毒、特洛伊木马、后门等等。</li>
+<li>软件破解：对软件的逆向分析，破解软件的使用。</li>
+</ul>
+<h3 id="10-如何加强软件安全保护"><a href="#10-如何加强软件安全保护" class="headerlink" title="10.如何加强软件安全保护"></a>10.如何加强软件安全保护</h3><ul>
+<li>从<strong>软件工程</strong>的角度来说，加强软件工程思想，让软件开发走标准的软件工程过程，将安全问题融入到软件的开发流程管理之中，在软件开发阶段尽量减少软件缺陷和漏洞的数量。</li>
+<li>保证软件自身运行环境，加强系统自身的<strong>数据完整性校验</strong>。</li>
+<li>加强系统自身软件的行为认证——<strong>软件动态可信认证</strong></li>
+<li>恶意软件检测与查杀</li>
+<li>黑客攻击防护——主机防火墙，HTPS</li>
+<li>系统还原</li>
+<li>虚拟机、沙箱技术</li>
+</ul>
+<h3 id="11-计算机的引导过程（简答）"><a href="#11-计算机的引导过程（简答）" class="headerlink" title="11.计算机的引导过程（简答）"></a>11.计算机的引导过程（简答）</h3><p>主要可分为四个阶段</p>
+<ul>
+<li>BIOS：首先进行硬件自检(POST power on self test)，如果发现有硬件故障会通过喇叭发声，然后按照启动顺序选择从哪个设备启动。</li>
+<li>主引导记录(MBR)：读取设备的前512字节，判断设备能否启动，不能启动则按启动顺序尝试启动下一个设备。然后BIOS会一次遍历主分区找到激活分区。</li>
+<li>硬盘启动：计算机会读取激活分区的第一个扇区即卷引导记录(VBR)，VBR告诉计算机操作系统位于该分区的哪个位置，然后计算机就可以开始加载操作系统了。</li>
+<li>操作系统：首先载入操作系统的内核，然后加载各个模块，驱动程序以及服务启动，最后系统自启动程序。</li>
+</ul>
+<h3 id="12-PE文件格式"><a href="#12-PE文件格式" class="headerlink" title="12.PE文件格式"></a>12.PE文件格式</h3><p>PE是Win32环境自身所带的可执行的文件格式。它的一些特性继承自UNIX的COFF文件格式。</p>
+<p>可移植的执行体意味着此文件格式是跨Win32平台的，即使Windows运行在非Intel的CPU上，任何Win32平台的PE装载器都能识别和使用该文件格式。</p>
+<p>移植到不同的CPU上PE执行体必须得有一些改变。除了VxD和16位的DLL外，所有Win32执行文件都使用PE文件格式。因此，研究PE文件格式是我们洞悉 Windows结构的良机。</p>
+<h3 id="13-软件漏洞成因分析"><a href="#13-软件漏洞成因分析" class="headerlink" title="13.软件漏洞成因分析"></a>13.软件漏洞成因分析</h3><p>软件脆弱性成因即形成软件脆弱性的原因。<strong>软件脆弱性成因</strong>包括导致软件脆弱性形成的<strong>内部因素</strong>和<strong>外部因素</strong>两个方面。</p>
+<ul>
+<li>内部因素主要是软件本身的<strong>不安全编码</strong>导致的内部安全缺陷，数据校验不当，类型初始化不当，空指针使用不当</li>
+<li>外部环境因素指的是<strong>软件运行所在的外部环境因素</strong>，其主要包括接口参数(IP)，机器内存(M)，进程(PRS)，注册信息(REG)，代码(CD)，网络(NET)，磁盘文件系统(DF)等方面。因此外部环境因素可以进一步表示为以下形式：EM = {IP，M，DF，PRS，NET，REG，CD}。</li>
+</ul>
+<h3 id="14-漏洞按照成因分类"><a href="#14-漏洞按照成因分类" class="headerlink" title="14.漏洞按照成因分类"></a>14.漏洞按照成因分类</h3><p>按照漏洞的成因分类：输入验证错误、访问验证错误、竞争条件错误、意外情况处理错误、设计错误、配置错误以及环境错误。</p>
+<h3 id="15-漏洞的一般特征及其描述"><a href="#15-漏洞的一般特征及其描述" class="headerlink" title="15.漏洞的一般特征及其描述"></a>15.漏洞的一般特征及其描述</h3><ol>
+<li>脆弱性是软件系统中一个隐藏的弱点（Fault，F），它本身并不会造成错误，但被攻击者利用之后可能会产生严重的安全后果（Result，R），形式化的表示为：F→R</li>
+<li>在软件开发过程中，开发人员自觉或不自觉的引入的逻辑错误（LF）是大多数脆弱性（SV）的根本来源，形式化的表示为：LF→SV</li>
+<li>脆弱性的特征还与系统本身运行时的环境（EM）有关，不同的运行环境也有可能造成不同的脆弱性问题，形式化的表示为：EM→SV</li>
+<li>旧的脆弱性（FSV）遭到修复后也有可能引入新的脆弱性（CSV）问题，形式化的表示为：FSV→CSV</li>
+</ol>
+<h3 id="16-漏洞分类及其标准"><a href="#16-漏洞分类及其标准" class="headerlink" title="16.漏洞分类及其标准"></a>16.漏洞分类及其标准</h3><ul>
+<li>按漏洞可能对系统造成的直接威胁划分<ul>
+<li>获取访问权限漏洞、权限提升漏洞、拒绝服务攻击漏洞、恶意软件植入漏洞、数据丢失或泄露漏洞</li>
+</ul>
+</li>
+<li>按漏洞的成因划分<ul>
+<li>输入验证错误、访问验证错误、竞争条件错误、意外情况处理错误、设计错误、配置错误、环境错误</li>
+</ul>
+</li>
+<li>按漏洞的严重等级<ul>
+<li>高级漏洞：远程和本地管理员权限</li>
+<li>中级漏洞：普通用户权限、权限提升、读取受限文件以及远程和本地拒绝服务</li>
+<li>低级漏洞：服务器信息泄露</li>
+</ul>
+</li>
+<li>按漏洞被利用的方式<ul>
+<li>本地攻击、远程主动攻击、远程被动攻击</li>
+</ul>
+</li>
+</ul>
+<h3 id="17-常见的软件漏洞分类"><a href="#17-常见的软件漏洞分类" class="headerlink" title="17.常见的软件漏洞分类"></a>17.常见的软件漏洞分类</h3><p>常见的软件漏洞大概分为8类：</p>
+<ul>
+<li><strong>代码注入</strong>：恶意代码的注入</li>
+<li>缓冲错误：缓冲区溢出</li>
+<li>跨站脚本：XSS攻击，植入代码脚本，保存型XSS漏洞：先把脚本存在数据库，等读取出来的时候有可能执行脚本</li>
+<li>权限许可和访问控制：未检查返回值导致空指针解引用，空指针异常</li>
+<li>SQL注入：攻击者输入携带可能被执行的危险指令或者恒成立条件进入数据库做正常的查询等操作，导致数据库错误的执行命令。</li>
+<li>输入验证：没有做校验工作，比如没有校验生成的值为0导致0除异常</li>
+<li>格式化字符串：输出非法格式化字符串导致输出了内存中的数据</li>
+<li>竞争条件：并发编程对资源的共享可能造成内存泄露、系统崩溃</li>
+</ul>
+<h3 id="18-不安全编码分类"><a href="#18-不安全编码分类" class="headerlink" title="18.不安全编码分类"></a>18.不安全编码分类</h3><p>数据校验不当DO、类型初始化不当TI、空指针引用不当NP、返回操作不当RV、数字操作不当NO、类与方法操作不当CM、异常处理不当EO、多线程处理不当MT、IO操作不当IO、序列化操作不当SO、权限控制不当RC</p>
+<h3 id="19-典型的软件漏洞机理分析（成因图分析法）"><a href="#19-典型的软件漏洞机理分析（成因图分析法）" class="headerlink" title="19.典型的软件漏洞机理分析（成因图分析法）"></a>19.典型的软件漏洞机理分析（成因图分析法）</h3><p>漏洞成因影响因素表：</p>
+<p><img src="/../../img/markdown_img/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8.assets/image-20211224211315230.png" alt="image-20211224211315230"></p>
+<p>软件脆弱性成因图由两部分构成：内因和外因。</p>
+<ul>
+<li><p>内因：指系统本身的不安全编码。如数据校验不当、类型初始 化不当、空指针使用不当、返回值操作不当、数字操作不当等。</p>
+</li>
+<li><p>外因：主要考虑的是接口参数（IP）、内存(M)、磁盘文件系统(DF)、进程(PRS)、 网络(NET)、注册环境信息(REG)和外部代码(ED)等影响因素。</p>
+</li>
+</ul>
+<p>软件脆弱性的成因复杂，一部分脆弱性是内因作用的结果，另 一部分则是内因和外因共同作用的结果。</p>
+<p>软件漏洞成因影响因素及其简称：</p>
+<p><img src="/../../img/markdown_img/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8.assets/image-20211224212016072.png" alt="image-20211224212016072"></p>
+<h3 id="20-软件漏洞的利用和发现"><a href="#20-软件漏洞的利用和发现" class="headerlink" title="20.软件漏洞的利用和发现"></a>20.软件漏洞的利用和发现</h3><h4 id="Exploit漏洞利用程序"><a href="#Exploit漏洞利用程序" class="headerlink" title="Exploit漏洞利用程序"></a>Exploit漏洞利用程序</h4><p>Exploit(漏洞利用程序)是针对某一特定漏洞或一组漏洞而精心编写的漏洞利用程序。其可以触发特定漏洞从而获得系统的控制权。</p>
+<p>分为两个部分：被注入到目标进程触发漏洞获得执行权限的二进制串，以及代表攻击者意图的代码。</p>
+<h4 id="漏洞利用的具体技术"><a href="#漏洞利用的具体技术" class="headerlink" title="漏洞利用的具体技术"></a>漏洞利用的具体技术</h4><ul>
+<li>修改内存变量</li>
+<li>修改代码逻辑</li>
+<li>修改函数返回地址</li>
+<li>修改函数指针</li>
+<li>攻击异常处理机制</li>
+<li>修改P.E.B中线程同步函数的入口地址</li>
+</ul>
+<h3 id="21-软件漏洞检测方法"><a href="#21-软件漏洞检测方法" class="headerlink" title="21.软件漏洞检测方法"></a>21.软件漏洞检测方法</h3><p>目前主流的软件漏洞挖掘方法有Fuzzing技术、安全扫描技术、静态分析、动态分析、基于二进制的检测分析技术等。</p>
+<p>UltraEdit可以用于打开任意类型的文件，可以以二进制的形式查看文件的内容。可以用UltraEdit来检测文件的类型，包括未知文件类型。</p>
+<p>OllyDBG是一个程序调试器，OllyDBG结合了静态和动态调试的方法，通过实时的反应出内存和程序执行的关系来进行程序的调试，可以用来检测漏洞，比如缓冲区溢出、内存泄露等等。可以编写好带有缓冲区溢出的程序，编译链接成exe文件，然后放到OllyDBG中执行，设置断点，实时观察内存地址、反汇编窗口，信息窗口以及堆栈信息等可以分析出程序的漏洞。</p>
+<h4 id="静态漏洞挖掘工具"><a href="#静态漏洞挖掘工具" class="headerlink" title="静态漏洞挖掘工具"></a>静态漏洞挖掘工具</h4><ol>
+<li>cppcheck<ul>
+<li>静态的C/C++代码分析工具，用以检查内存泄露、缓冲区溢出以及更多问题</li>
+</ul>
+</li>
+<li>SPLINT<ul>
+<li>使用规则检查技术，支持对C/C++使用规则找到大规模程序故障，由于给定规则的限制，也就只能找到给定的故障</li>
+</ul>
+</li>
+<li>FindBugs<ul>
+<li>根据词汇分析和数据流分析，支持对Java的静态代码漏洞挖掘。该工具自带检测器Detector，开发者还可以根据自己的需求设计编写特定的缺陷检测器</li>
+</ul>
+</li>
+<li>PMD<ul>
+<li>也是Java的静态代码分析工具</li>
+</ul>
+</li>
+</ol>
+<h4 id="动态漏洞挖掘工具"><a href="#动态漏洞挖掘工具" class="headerlink" title="动态漏洞挖掘工具"></a>动态漏洞挖掘工具</h4><ol>
+<li>MiniFuzz<ul>
+<li>模糊测试技术(fuzzing)，简单易用，原理清晰</li>
+</ul>
+</li>
+<li>AFL<ul>
+<li>动态二进制插桩技术，比较高效</li>
+</ul>
+</li>
+<li>Hodor<ul>
+<li>污点跟踪技术，应用范围广</li>
+</ul>
+</li>
+<li>Boofuzz<ul>
+<li>模糊测试技术，简单易用，发生错误更少。内置多个模块，比如会话(Session)模块，Session对象是fuzz会话的中心；连接模块，Connection可以选择TCP、UDP等多种套接字连接。运行http用例，boofuzz通过事前约定好的数据进行测试，最后同时也可以在localhost的26000端口网页端查看检测日志。</li>
+</ul>
+</li>
+</ol>
+<h3 id="22-恶意代码分类及各自特点"><a href="#22-恶意代码分类及各自特点" class="headerlink" title="22.恶意代码分类及各自特点"></a>22.恶意代码分类及各自特点</h3><p>恶意代码也叫恶意软件，广义上的计算机病毒。可以分为以下几种：</p>
+<ul>
+<li><p>计算机病毒、蠕虫</p>
+<ul>
+<li><strong>计算机病毒</strong>是一种可以自我传播、需要用户干预（或者说不能独立运行、需要宿主程序激活）来触发执行的破坏性程序或者代码</li>
+<li><strong>网络蠕虫</strong>是一种可以自我传播、但不需要用户干预（或者说可以独立运行）就可以触发执行的破坏性程序或代码</li>
+</ul>
+</li>
+<li><p>木马、后门</p>
+<ul>
+<li><strong>特洛伊木马</strong>指看起来具有正常功能，但实际上却隐藏得有用户不希望的功能程序。通常由控制端和被控制端两端组成</li>
+<li><strong>后门</strong>是使得攻击者可以非法获取到系统的权限来操作系统的一类程序。后门程序包括了木马程序，后门主要是获取到系统的权限就像给攻击者开了一个后门一样，以方便随时利用这个系统，木马就是隐藏在正常程序中的一段有恶意目的的代码或者文件，可以用来记录密码、记录键盘、删除文件等功能。</li>
+</ul>
+</li>
+<li><p>Rootkit</p>
+<ul>
+<li><strong>Rootkit</strong>通过修改现有的操作系统软件，使得攻击者获取访问权并隐藏在计算机中的程序</li>
+</ul>
+</li>
+<li><p>僵尸程序(bot)</p>
+<ul>
+<li><strong>僵尸程序</strong>通过聊天室，文件共享网络感染存在漏洞的计算机，这些感染的计算机就相当于被攻击者控制。</li>
+</ul>
+</li>
+<li><p>流氓软件、间谍软件</p>
+<ul>
+<li><strong>流氓软件</strong>就是具有一定的实用价值但是具备电脑病毒和黑客软件的部分特征的软件（特点就是难以卸载）</li>
+<li><strong>间谍软件</strong>是会收集用户计算机上的信息、机密文件或者隐私数据上报到服务器</li>
+</ul>
+</li>
+<li><p>广告软件、Exploit、黑客工具等</p>
+<ul>
+<li><strong>广告软件</strong>未经过用户允许，直接下载并且安装或者说与其他软件以捆绑软件一起下载下来，一直弹出广告并且难以根除的程序</li>
+<li><strong>Exploit</strong>是精心设计的用于特定漏洞利用来对目标系统实施攻击的程序</li>
+<li><strong>黑客工具</strong>是各类直接或间接用于网络和主机渗透的软件，比如各种扫描器、后门植入工具、密码嗅探器、提权工具等</li>
+</ul>
+</li>
+</ul>
+<h3 id="23-如何更加科学地对恶意软件进行分类和命名"><a href="#23-如何更加科学地对恶意软件进行分类和命名" class="headerlink" title="23.如何更加科学地对恶意软件进行分类和命名"></a>23.如何更加科学地对恶意软件进行分类和命名</h3><p>目前互联网的发展，各种恶意软件层出不穷，防不胜防，一步小心就会给计算机带来麻烦。恶意软件的行为日益泛化，我们要进行分类可以分析软件的原理或者说按照恶意软件的功能就行划分，比如提权类的恶意软件、给普通计算机用户仅仅是造成不良好体验的流氓软件等类似这种功能的方面进行一个分类。其次，我们还可以建立一个恶意软件的标准危险等级，按照它对于计算机的一个威胁程度进行分类，威胁越大的等级越高。最后我们还可以用魔法打败魔法，采用人工智能，基于深度学习来进行恶意代码分类。</p>
+<h3 id="24-流氓软件及其特点"><a href="#24-流氓软件及其特点" class="headerlink" title="24.流氓软件及其特点"></a>24.流氓软件及其特点</h3><p>流氓软件是属于恶意软件中的一种。流氓软件它本身其实是具有一定的实用价值，比如某2345，它本身可以给你提供一些压缩文件或者防病毒的功能，但是它会安装它的全家桶让你实在是难以接受，通常还会类似一个广告软件弹出各种广告。所以流氓软件就是具有一定实用价值具备电脑病毒和黑客软件部分特征的软件。其最大的特点就是对于普通用户来说难以卸载。</p>
+<h3 id="25-网络蠕虫功能结构及工作机制"><a href="#25-网络蠕虫功能结构及工作机制" class="headerlink" title="25.网络蠕虫功能结构及工作机制"></a>25.网络蠕虫功能结构及工作机制</h3><p>蠕虫的功能模型包含有基本功能模块和扩展功能模块。</p>
+<ul>
+<li>基本功能模块包含有：<ul>
+<li>信息收集模块：完成对本地和目标节点主机的信息汇集，为发现易感染目标提供支持</li>
+<li>扫描探测模块：发现易感染主机群体</li>
+<li>攻击渗透模块：利用已发现的服务漏洞实施攻击</li>
+<li>自我推进模块：完成对目标节点的感染</li>
+</ul>
+</li>
+<li>扩展功能模块主要取决于攻击者的目的，通常有：<ul>
+<li>实体隐藏模块：主要提供蠕虫的生存能力。对蠕虫各个实体组成部分的隐藏、加密、变形</li>
+<li>宿主破坏模块：破坏被感染主机网络正常运行，在被感染主机上植入后门</li>
+<li>信息通信模块：使蠕虫间、蠕虫同黑客间进行通信</li>
+<li>远程控制模块：控制被感染主机，执行攻击者下达的指令</li>
+<li>自动升级模块：随时更新模块功能，实现持续攻击</li>
+</ul>
+</li>
+</ul>
+<h3 id="26-蠕虫的检测与防治"><a href="#26-蠕虫的检测与防治" class="headerlink" title="26.蠕虫的检测与防治"></a>26.蠕虫的检测与防治</h3><p>对于网络管理者和安全厂商比较典型的检测技术有流量监测与分析技术、安全软件监测等。当检测出蠕虫后进行防治可以采用网关阻断，补丁下发，网络安全设备阻断，利用客户端安全软件清除蠕虫个体并进行补丁修补。</p>
+<p>对于个人用户来说，检测与防治蠕虫还是通过一些安全防护软件来进行，及时修护漏洞补丁，使用防火墙软件阻断等。</p>
+<h3 id="27-木马的通信方式、连接方式及各自优缺点"><a href="#27-木马的通信方式、连接方式及各自优缺点" class="headerlink" title="27.木马的通信方式、连接方式及各自优缺点"></a>27.木马的通信方式、连接方式及各自优缺点</h3><p>木马的通信方式：传输通道构建信息，IP地址、端口等信息、第三方网站地址等。</p>
+<p>建立通信连接的方式主要有正向连接和反向连接两种，反向连接又分为两种方式</p>
+<ul>
+<li><p>正向连接</p>
+<ul>
+<li><p>控制端（客户端）主动连接被控端（服务端）。创建服务器端TCP套接字，打开端口监听，连接服务器端口，采用TCP建立连接</p>
+</li>
+<li><p>优点：由控制端主动连接被控端，因此攻击者无需外部的IP地址；木马样本不会泄露攻击者的IP地址</p>
+</li>
+<li><p>缺点：可能会被防火墙阻断，被攻击者必须具备外部IP地址，定位被攻击者相对困难</p>
+</li>
+</ul>
+</li>
+<li><p>反向连接-1</p>
+<ul>
+<li>被控端直接连接控制端</li>
+<li>优点：通过防火墙相对容易；攻击目标随时上线、随时控制；可以控制局域网内的目标</li>
+<li>缺点：样本会暴露控制服务器信息(域名或者IP)，攻击者通常要具有外部IP</li>
+</ul>
+</li>
+<li><p>反向连接-2</p>
+<ul>
+<li>被控端通过一个第三方肉鸡(傀儡机，受黑客远程控制的电脑)或者Web服务器和控制端间接的通信。</li>
+<li>优点：可以绕过防火墙，自动连接上线，不易被发现</li>
+<li>缺点：第三方服务器的稳定性需要保证</li>
+</ul>
+</li>
+</ul>
+<h3 id="28-PE病毒感染关键技术及实现过程"><a href="#28-PE病毒感染关键技术及实现过程" class="headerlink" title="28.==PE病毒感染关键技术及实现过程=="></a>28.==PE病毒感染关键技术及实现过程==</h3><ol>
+<li><p>病毒感染重定位</p>
+<p>由于病毒要用到变量（或常量），病毒感染HOST程序后，由于病毒代码的各个变量在内存中的位置会随HOST程序的大小不同而发生变化，因此病毒必须对病毒代码中的变量进行重定位。病毒代码目标寄生位置不固定。</p>
+</li>
+<li><p>获取API函数地址</p>
+<p>病毒代码没有引入函数机制的支持，所以病毒必须自己获取API函数的地址。首先获取Kernel32的基地址，再从Kernel32中得到API函数的地址</p>
+</li>
+<li><p>目标程序遍历搜索</p>
+<p>通常以PE文件格式的文件作为感染目标，进行搜索时调用FindFirstFile和FindNextFile两个API</p>
+</li>
+<li><p>文件感染</p>
+<p>主要包括使病毒代码能够得到运行，并且原程序的正常功能不能被破坏。这就需要感染时记录原始“程序控制点位置”，病毒代码执行完毕后返回控制权。避免重复感染：感染标记</p>
+</li>
+</ol>
+<h3 id="30-Windows-PE病毒的常用感染方式及优缺点"><a href="#30-Windows-PE病毒的常用感染方式及优缺点" class="headerlink" title="30.Windows PE病毒的常用感染方式及优缺点"></a>30.Windows PE病毒的常用感染方式及优缺点</h3><p>添加新节感染：增加新节存放病毒代码，要事先检查节表空间是否足够</p>
+<p>碎片式感染：代码分解插入到节之间的填充部分</p>
+<p>插入式感染：病毒代码插入到HOST文件的代码节，这样会增加HOST程序大小，并且可能会修改HOST程序中的数据导致HOST程序运行失败</p>
+<p>伴随式感染：备份HOST程序，用自身替换HOST程序，病毒代码执行完毕再把控制权交回HOST程序。</p>
+<h3 id="31-宏病毒传播过程"><a href="#31-宏病毒传播过程" class="headerlink" title="31.宏病毒传播过程"></a>31.宏病毒传播过程</h3><p>宏病毒将代码放到数据文件或者模板的宏中，由于这些宏会自动执行，因此获取控制权。宏病毒在单机情况下就是Office文档模板传播，在网络情况下也可能通过邮件进行传播。通过让宏在数据文档和文档模板两类文件之间互相感染进行传播。自我保护、代码导出（到本地文件）、代码导入（到当前活动文档）。</p>
+<h3 id="32-常见的病毒检测技术及优缺点"><a href="#32-常见的病毒检测技术及优缺点" class="headerlink" title="32.常见的病毒检测技术及优缺点"></a>32.常见的病毒检测技术及优缺点</h3><ol>
+<li>特征值检测技术<ul>
+<li>从病毒中提取病毒特征值进行检测，通常是病毒中的一段或者多段字符串或二进制串</li>
+<li>优点：检测速度快，误报率低，技术成熟</li>
+<li>缺点：只能检测已知的恶意代码，容易被免杀绕过</li>
+</ul>
+</li>
+<li>校验和检测技术<ul>
+<li>检查检测对象的实际校验和与预期的是否一致，判断是否感染</li>
+<li>优点：方法简单，能发现未知病毒，目标文件的细微变化也能发现</li>
+<li>缺点：必须预先记录正常文件的校验和才能做对比，误报率高，不能识别病毒名称，效率低</li>
+</ul>
+</li>
+<li>启发式扫描技术<ul>
+<li>恶意代码检测经验和知识的软件实现</li>
+<li>优点：能发现未知病毒</li>
+<li>缺点：误报率高</li>
+</ul>
+</li>
+<li>虚拟机检测技术<ul>
+<li>在内存中模拟一个小的封闭程序执行环境，所有待查的文件在其中被虚拟执行</li>
+<li>优点：有效处理加密类病毒；虚拟机技术+特征值扫描，准确率更高；虚拟机技术+启发式扫描，有利于检测未知变形病毒</li>
+</ul>
+</li>
+<li>主动防御技术<ul>
+<li>也叫行为监控技术，动态监视API接口的调用，判断其程序执行的合法，监控敏感行为</li>
+<li>优点：可发现未知恶意软件，可准确的发现未知恶意软件的恶意行为</li>
+<li>缺点：误报率高，不能识别恶意软件名称，实现困难</li>
+</ul>
+</li>
+</ol>
+<h3 id="33-恶意软件为实现自我保护，常见的特征值检测对抗和人工分析对抗中，各自的对抗手段有哪些？这些手段的原理是什么？并分析其难度和有效性"><a href="#33-恶意软件为实现自我保护，常见的特征值检测对抗和人工分析对抗中，各自的对抗手段有哪些？这些手段的原理是什么？并分析其难度和有效性" class="headerlink" title="33.恶意软件为实现自我保护，常见的特征值检测对抗和人工分析对抗中，各自的对抗手段有哪些？这些手段的原理是什么？并分析其难度和有效性"></a>33.恶意软件为实现自我保护，常见的特征值检测对抗和人工分析对抗中，各自的对抗手段有哪些？这些手段的原理是什么？并分析其难度和有效性</h3><h4 id="特征值检测技术对抗方式"><a href="#特征值检测技术对抗方式" class="headerlink" title="特征值检测技术对抗方式"></a>特征值检测技术对抗方式</h4><ol>
+<li><p>事后对抗，手工修改自身特征：</p>
+<ul>
+<li>首先利用反病毒软件定位特征值，然后做针对性修改。原理就是定位到检测软件检测到的特征值然后做针对性修改来逃过检测。不同的特征值检测方式可能不同，并且也不止一处特征值。需要灵活的使用特征码定位工具。</li>
+</ul>
+</li>
+<li><p>事前对抗，自动修改自身特征：</p>
+<ul>
+<li>通过加密、多态、变形等，对病毒代码进行加密混淆，使其逃过特征值检测软件。编写这种代码非常的耗时，并且仅仅适用于恶意程序自我复制的情况。但现在因为基于行为的反病毒检测手段出现后，这种对抗的有效性也降低了。</li>
+<li>加壳处理，通过对代码加壳实现数据特征的变化，体积的压缩，实现程序的免杀</li>
+</ul>
+</li>
+</ol>
+<h4 id="人工分析对抗"><a href="#人工分析对抗" class="headerlink" title="人工分析对抗"></a>人工分析对抗</h4><ol>
+<li><p>在病毒代码编写过程中加入自我保护手段(反汇编、反调试代码等)</p>
+</li>
+<li><p>直接采用第三方软件（加壳软件）增强病毒程序的人工分析难度。</p>
+<p>所谓加壳就是加入一段程序，专门负责保护其不被非法修改或者反编译的程序。但是采用的加壳软件也可能会有对应的脱壳软件，会反对抗到加壳，使得加壳无效。</p>
+</li>
+</ol>
+<h3 id="34-面对恶意软件样本，分析目标，分析方法"><a href="#34-面对恶意软件样本，分析目标，分析方法" class="headerlink" title="34.面对恶意软件样本，分析目标，分析方法"></a>34.面对恶意软件样本，分析目标，分析方法</h3><ol>
+<li>恶意软件样本分析的分析目标：<ul>
+<li>理解恶意软件的工作原理和行为特征</li>
+<li>实现或完善相应的安全检测机制</li>
+<li>实现对已有恶意软件和未知恶意软件的防御、检测</li>
+</ul>
+</li>
+<li>恶意软件样本分析的分析方法：<ul>
+<li>在线分析：<strong>在线病毒扫描</strong>、<strong>在线行为分析</strong></li>
+<li>本地静态分析：<strong>加壳检测与脱壳</strong>、<strong>反汇编/反编译</strong>、资源分析</li>
+<li>本地动态分析：快照对比分析、<strong>行为监控分析</strong>、<strong>调试跟踪</strong>、<strong>网络监控分析</strong>、<strong>运行环境仿真</strong></li>
+<li>网络交互的动态分析：网络连接选择、网络交互环境仿真、<strong>数据包捕获分析</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="35-常见的加壳类型检测工具"><a href="#35-常见的加壳类型检测工具" class="headerlink" title="==35.常见的加壳类型检测工具=="></a>==35.常见的加壳类型检测工具==</h3><h3 id="36-针对已知病毒如何快速有效检测？针对未知病毒如何进行有效检测？目前支持未知病毒检测方法的优劣，并提出你的方法和思路？"><a href="#36-针对已知病毒如何快速有效检测？针对未知病毒如何进行有效检测？目前支持未知病毒检测方法的优劣，并提出你的方法和思路？" class="headerlink" title="36.针对已知病毒如何快速有效检测？针对未知病毒如何进行有效检测？目前支持未知病毒检测方法的优劣，并提出你的方法和思路？"></a>36.针对已知病毒如何快速有效检测？针对未知病毒如何进行有效检测？目前支持未知病毒检测方法的优劣，并提出你的方法和思路？</h3><p>对于已知病毒我们可以先查看病毒是否进行过加壳处理，如果加壳了则需要用脱壳技术进行解密，然后可以利用特征值检测技术，或者用虚拟机检测技术进行检测，然后虚拟机检测+特征值结合可以提高检测效率。</p>
+<p>对于未知病毒的检测方法有校验和检测技术，可以发现未知的恶意代码，但是这样的方法需要提前对文件有一个校验和的预期，才能同被植入了恶意代码的文件做对比。其次还可以采用启发式扫描结合虚拟机技术来实现对未知病毒的检测，提高检测的准确率。也可以用主动防御技术，监控程序API接口调用，进行逻辑分析，识别出恶意软件，但是这样的实现有些复杂，比较困难。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">http://ins1mn1a.github.io/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">软件系统安全</a></div><div class="post_share"><div class="social-share" data-image="/img/background_img/Irena.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/12/24/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/"><img class="next-cover" src="/img/background_img/Irena.png" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">网络安全协议基础</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BD%AF%E4%BB%B6%E3%80%81%E7%A8%8B%E5%BA%8F%E3%80%81%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E3%80%81%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E3%80%81%E8%BD%AF%E4%BB%B6%E8%B4%A8%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">1.   软件、程序、软件工程、软件系统、软件质量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BD%AF%E4%BB%B6%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3"><span class="toc-number">2.</span> <span class="toc-text">2.   软件构造过程存在哪些安全隐患</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%9C%A8%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E7%9A%84%E6%9C%AC%E5%9B%A0"><span class="toc-number">3.</span> <span class="toc-text">3.   软件系统存在安全问题的本因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BB%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9A%84%E8%A7%86%E8%A7%92%E5%A6%82%E4%BD%95%E9%A2%84%E9%98%B2%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E7%BC%BA%E9%99%B7"><span class="toc-number">4.</span> <span class="toc-text">4.   从软件工程的视角如何预防软件系统安全缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%BD%AF%E4%BB%B6%E5%8D%B1%E6%9C%BA"><span class="toc-number">5.</span> <span class="toc-text">5.   软件危机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%8F%AF%E4%BF%A1%E8%BD%AF%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">6.可信软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8"><span class="toc-number">7.</span> <span class="toc-text">7.软件安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E4%BF%A1%E6%81%AF%E4%B8%8E%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8"><span class="toc-number">8.</span> <span class="toc-text">8.信息与信息安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E5%A8%81%E8%83%81%E5%8F%8A%E5%85%B6%E6%9D%A5%E6%BA%90%EF%BC%9B"><span class="toc-number">9.</span> <span class="toc-text">9.软件安全威胁及其来源；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E5%A6%82%E4%BD%95%E5%8A%A0%E5%BC%BA%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4"><span class="toc-number">10.</span> <span class="toc-text">10.如何加强软件安全保护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E5%BC%95%E5%AF%BC%E8%BF%87%E7%A8%8B%EF%BC%88%E7%AE%80%E7%AD%94%EF%BC%89"><span class="toc-number">11.</span> <span class="toc-text">11.计算机的引导过程（简答）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">12.</span> <span class="toc-text">12.PE文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E8%BD%AF%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0%E5%88%86%E6%9E%90"><span class="toc-number">13.</span> <span class="toc-text">13.软件漏洞成因分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E6%BC%8F%E6%B4%9E%E6%8C%89%E7%85%A7%E6%88%90%E5%9B%A0%E5%88%86%E7%B1%BB"><span class="toc-number">14.</span> <span class="toc-text">14.漏洞按照成因分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-%E6%BC%8F%E6%B4%9E%E7%9A%84%E4%B8%80%E8%88%AC%E7%89%B9%E5%BE%81%E5%8F%8A%E5%85%B6%E6%8F%8F%E8%BF%B0"><span class="toc-number">15.</span> <span class="toc-text">15.漏洞的一般特征及其描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-%E6%BC%8F%E6%B4%9E%E5%88%86%E7%B1%BB%E5%8F%8A%E5%85%B6%E6%A0%87%E5%87%86"><span class="toc-number">16.</span> <span class="toc-text">16.漏洞分类及其标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-%E5%B8%B8%E8%A7%81%E7%9A%84%E8%BD%AF%E4%BB%B6%E6%BC%8F%E6%B4%9E%E5%88%86%E7%B1%BB"><span class="toc-number">17.</span> <span class="toc-text">17.常见的软件漏洞分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-%E4%B8%8D%E5%AE%89%E5%85%A8%E7%BC%96%E7%A0%81%E5%88%86%E7%B1%BB"><span class="toc-number">18.</span> <span class="toc-text">18.不安全编码分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-%E5%85%B8%E5%9E%8B%E7%9A%84%E8%BD%AF%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%9C%BA%E7%90%86%E5%88%86%E6%9E%90%EF%BC%88%E6%88%90%E5%9B%A0%E5%9B%BE%E5%88%86%E6%9E%90%E6%B3%95%EF%BC%89"><span class="toc-number">19.</span> <span class="toc-text">19.典型的软件漏洞机理分析（成因图分析法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-%E8%BD%AF%E4%BB%B6%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E5%92%8C%E5%8F%91%E7%8E%B0"><span class="toc-number">20.</span> <span class="toc-text">20.软件漏洞的利用和发现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Exploit%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">20.1.</span> <span class="toc-text">Exploit漏洞利用程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E7%9A%84%E5%85%B7%E4%BD%93%E6%8A%80%E6%9C%AF"><span class="toc-number">20.2.</span> <span class="toc-text">漏洞利用的具体技术</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E8%BD%AF%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95"><span class="toc-number">21.</span> <span class="toc-text">21.软件漏洞检测方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%B7%A5%E5%85%B7"><span class="toc-number">21.1.</span> <span class="toc-text">静态漏洞挖掘工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E5%B7%A5%E5%85%B7"><span class="toc-number">21.2.</span> <span class="toc-text">动态漏洞挖掘工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E7%B1%BB%E5%8F%8A%E5%90%84%E8%87%AA%E7%89%B9%E7%82%B9"><span class="toc-number">22.</span> <span class="toc-text">22.恶意代码分类及各自特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E5%A6%82%E4%BD%95%E6%9B%B4%E5%8A%A0%E7%A7%91%E5%AD%A6%E5%9C%B0%E5%AF%B9%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%88%86%E7%B1%BB%E5%92%8C%E5%91%BD%E5%90%8D"><span class="toc-number">23.</span> <span class="toc-text">23.如何更加科学地对恶意软件进行分类和命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#24-%E6%B5%81%E6%B0%93%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%85%B6%E7%89%B9%E7%82%B9"><span class="toc-number">24.</span> <span class="toc-text">24.流氓软件及其特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25-%E7%BD%91%E7%BB%9C%E8%A0%95%E8%99%AB%E5%8A%9F%E8%83%BD%E7%BB%93%E6%9E%84%E5%8F%8A%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-number">25.</span> <span class="toc-text">25.网络蠕虫功能结构及工作机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#26-%E8%A0%95%E8%99%AB%E7%9A%84%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%98%B2%E6%B2%BB"><span class="toc-number">26.</span> <span class="toc-text">26.蠕虫的检测与防治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#27-%E6%9C%A8%E9%A9%AC%E7%9A%84%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E3%80%81%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%90%84%E8%87%AA%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">27.</span> <span class="toc-text">27.木马的通信方式、连接方式及各自优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-PE%E7%97%85%E6%AF%92%E6%84%9F%E6%9F%93%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E5%8F%8A%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">28.</span> <span class="toc-text">28.&#x3D;&#x3D;PE病毒感染关键技术及实现过程&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#30-Windows-PE%E7%97%85%E6%AF%92%E7%9A%84%E5%B8%B8%E7%94%A8%E6%84%9F%E6%9F%93%E6%96%B9%E5%BC%8F%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">29.</span> <span class="toc-text">30.Windows PE病毒的常用感染方式及优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E5%AE%8F%E7%97%85%E6%AF%92%E4%BC%A0%E6%92%AD%E8%BF%87%E7%A8%8B"><span class="toc-number">30.</span> <span class="toc-text">31.宏病毒传播过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%97%85%E6%AF%92%E6%A3%80%E6%B5%8B%E6%8A%80%E6%9C%AF%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">31.</span> <span class="toc-text">32.常见的病毒检测技术及优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#33-%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E4%B8%BA%E5%AE%9E%E7%8E%B0%E8%87%AA%E6%88%91%E4%BF%9D%E6%8A%A4%EF%BC%8C%E5%B8%B8%E8%A7%81%E7%9A%84%E7%89%B9%E5%BE%81%E5%80%BC%E6%A3%80%E6%B5%8B%E5%AF%B9%E6%8A%97%E5%92%8C%E4%BA%BA%E5%B7%A5%E5%88%86%E6%9E%90%E5%AF%B9%E6%8A%97%E4%B8%AD%EF%BC%8C%E5%90%84%E8%87%AA%E7%9A%84%E5%AF%B9%E6%8A%97%E6%89%8B%E6%AE%B5%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E8%BF%99%E4%BA%9B%E6%89%8B%E6%AE%B5%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%B9%B6%E5%88%86%E6%9E%90%E5%85%B6%E9%9A%BE%E5%BA%A6%E5%92%8C%E6%9C%89%E6%95%88%E6%80%A7"><span class="toc-number">32.</span> <span class="toc-text">33.恶意软件为实现自我保护，常见的特征值检测对抗和人工分析对抗中，各自的对抗手段有哪些？这些手段的原理是什么？并分析其难度和有效性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E5%80%BC%E6%A3%80%E6%B5%8B%E6%8A%80%E6%9C%AF%E5%AF%B9%E6%8A%97%E6%96%B9%E5%BC%8F"><span class="toc-number">32.1.</span> <span class="toc-text">特征值检测技术对抗方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E5%88%86%E6%9E%90%E5%AF%B9%E6%8A%97"><span class="toc-number">32.2.</span> <span class="toc-text">人工分析对抗</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#34-%E9%9D%A2%E5%AF%B9%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A0%B7%E6%9C%AC%EF%BC%8C%E5%88%86%E6%9E%90%E7%9B%AE%E6%A0%87%EF%BC%8C%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95"><span class="toc-number">33.</span> <span class="toc-text">34.面对恶意软件样本，分析目标，分析方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#35-%E5%B8%B8%E8%A7%81%E7%9A%84%E5%8A%A0%E5%A3%B3%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="toc-number">34.</span> <span class="toc-text">&#x3D;&#x3D;35.常见的加壳类型检测工具&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#36-%E9%92%88%E5%AF%B9%E5%B7%B2%E7%9F%A5%E7%97%85%E6%AF%92%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E6%9C%89%E6%95%88%E6%A3%80%E6%B5%8B%EF%BC%9F%E9%92%88%E5%AF%B9%E6%9C%AA%E7%9F%A5%E7%97%85%E6%AF%92%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%9C%89%E6%95%88%E6%A3%80%E6%B5%8B%EF%BC%9F%E7%9B%AE%E5%89%8D%E6%94%AF%E6%8C%81%E6%9C%AA%E7%9F%A5%E7%97%85%E6%AF%92%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95%E7%9A%84%E4%BC%98%E5%8A%A3%EF%BC%8C%E5%B9%B6%E6%8F%90%E5%87%BA%E4%BD%A0%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E6%80%9D%E8%B7%AF%EF%BC%9F"><span class="toc-number">35.</span> <span class="toc-text">36.针对已知病毒如何快速有效检测？针对未知病毒如何进行有效检测？目前支持未知病毒检测方法的优劣，并提出你的方法和思路？</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/" title="软件系统安全"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="软件系统安全"/></a><div class="content"><a class="title" href="/2021/12/26/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/" title="软件系统安全">软件系统安全</a><time datetime="2021-12-26T14:39:00.240Z" title="发表于 2021-12-26 22:39:00">2021-12-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/" title="网络安全协议基础"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="网络安全协议基础"/></a><div class="content"><a class="title" href="/2021/12/24/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE/" title="网络安全协议基础">网络安全协议基础</a><time datetime="2021-12-24T14:35:34.968Z" title="发表于 2021-12-24 22:35:34">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/" title="SDN的TopoGuard解决方案"><img src="/img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="SDN的TopoGuard解决方案"/></a><div class="content"><a class="title" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/TopoGuard/" title="SDN的TopoGuard解决方案">SDN的TopoGuard解决方案</a><time datetime="2021-12-24T14:18:32.448Z" title="发表于 2021-12-24 22:18:32">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/SDN/" title="Mininet的环境安装"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Mininet的环境安装"/></a><div class="content"><a class="title" href="/2021/12/24/SDN%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C%E7%9A%84%E6%94%BB%E5%87%BB/SDN/" title="Mininet的环境安装">Mininet的环境安装</a><time datetime="2021-12-24T14:17:39.120Z" title="发表于 2021-12-24 22:17:39">2021-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" title="Redis 缓存穿透击穿与雪崩"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Redis 缓存穿透击穿与雪崩"/></a><div class="content"><a class="title" href="/2021/12/17/redis/Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%87%BB%E7%A9%BF%E4%B8%8E%E9%9B%AA%E5%B4%A9/" title="Redis 缓存穿透击穿与雪崩">Redis 缓存穿透击穿与雪崩</a><time datetime="2021-12-17T12:31:22.721Z" title="发表于 2021-12-17 20:31:22">2021-12-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">if feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
