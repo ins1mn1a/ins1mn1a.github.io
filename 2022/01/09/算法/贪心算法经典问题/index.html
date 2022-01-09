@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ins1mn1a | ins1mn1a</title><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="贪心算法贪心算法总是作出在当前看来最好的选择。也就是说贪心算法并不从整体最优考虑，它所作出的选择只是在某种意义上的局部最优选择。当然，希望贪心算法得到的最终结果也是整体最优的。虽然贪心算法不能对所有问题都得到整体最优解，但对许多问题它能产生整体最优 解。如单源最短路经问题，最小生成树问题等。在一些情况下，即使贪心算法不能得到整体最优解，其最终结果却是最优解的很好近似。 最优子结构性质动态规划算法通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ins1mn1a">
+<meta property="og:url" content="http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="贪心算法贪心算法总是作出在当前看来最好的选择。也就是说贪心算法并不从整体最优考虑，它所作出的选择只是在某种意义上的局部最优选择。当然，希望贪心算法得到的最终结果也是整体最优的。虽然贪心算法不能对所有问题都得到整体最优解，但对许多问题它能产生整体最优 解。如单源最短路经问题，最小生成树问题等。在一些情况下，即使贪心算法不能得到整体最优解，其最终结果却是最优解的很好近似。 最优子结构性质动态规划算法通">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/Irena.png">
+<meta property="article:published_time" content="2022-01-09T02:45:48.174Z">
+<meta property="article:modified_time" content="2021-11-11T06:03:22.971Z">
+<meta property="article:author" content="ins1mnia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/Irena.png"><link rel="shortcut icon" href="/img/background_img/%E7%8E%89%E5%AD%90.icon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ins1mn1a',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-11-11 14:03:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/background_img/Irena.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-09T02:45:48.174Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-11T06:03:22.971Z" title="更新于 2021-11-11 14:03:22">2021-11-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="贪心算法"><a href="#贪心算法" class="headerlink" title="贪心算法"></a>贪心算法</h1><p>贪心算法总是作出在当前看来最好的选择。也就是说贪心算法并不从整体最优考虑，它所作出的选择只是在某种意义上的局部最优选择。当然，希望贪心算法得到的最终结果也是整体最优的。虽然贪心算法不能对所有问题都得到整体最优解，但对许多问题它能产生整体最优 解。如单源最短路经问题，最小生成树问题等。在一些情况下，即使贪心算法不能得到整体最优解，其最终结果却是最优解的很好近似。</p>
+<h2 id="最优子结构性质"><a href="#最优子结构性质" class="headerlink" title="最优子结构性质"></a>最优子结构性质</h2><p>动态规划算法通常以自底向上的方式解各子问题，而 贪心算法则通常以自顶向下的方式进行，以迭代的方式 作出相继的贪心选择，每作一次贪心选择就将所求问题简化为规模更小的子问题。对于一个具体问题，要确定它是否具有贪心选择性质，必须证明每一步所作的贪心选择最终导致问题的整体最优解。</p>
+<h2 id="贪心选择性质"><a href="#贪心选择性质" class="headerlink" title="贪心选择性质"></a>贪心选择性质</h2><p>所谓贪心选择性质是指所求问题的整体最优解可以通过一系列局部最优的选择，即贪心选择来达到。这是贪心算法可行的第一个基本要素，也是贪心算法与动态规划算法的主要区别。</p>
+<p>动态规划算法通常以自底向上的方式解各子问题，而贪心算法则通常以自顶向下的方式进行，以迭代的方式作出相继的贪心选择，每作一次贪心选择就将所求问题简化为规模更小的子问题。</p>
+<p>对于一个具体问题，要确定它是否具有贪心选择性质， 必须证明每一步所作的贪心选择最终导致问题的整体最优解。</p>
+<h3 id="贪心选择性质证明"><a href="#贪心选择性质证明" class="headerlink" title="贪心选择性质证明"></a>贪心选择性质证明</h3><h4 id="货币系统"><a href="#货币系统" class="headerlink" title="货币系统"></a>货币系统</h4><p>设某种货币系统为(1, 5, 10, 25)四种币值（单位：元），要用最少的币数找出n元钱，问：能否用贪心算法进行求解，并证明。（不要求写算法）</p>
+<p>贪心性质（最大面额优先选最多）证明：</p>
+<p>对n&lt;=25的情况，易由穷举得证。</p>
+<p>当n&gt;25时，设n=1<em>a1+5</em>a2+10<em>a3+25</em>a4</p>
+<p>为了使a1+a2+a3+a4最小，易知：</p>
+<p>a1&lt;5，若a1&gt;=5，可将5个1元兑换为1个5元，币数减少。</p>
+<p>a2&lt;2，若a2&gt;=2，可将2个5元兑换为1个10元，币数减少。</p>
+<p>当a2=0时，a3&lt;3，若a3&gt;=3，可将3个10元兑换为1个5元和1个25元，币数减少。</p>
+<p>当a2&gt;0时，a3&lt;2，若a2&gt;=2，可将1个5元和2个10元兑换为1个25元，币数减少。</p>
+<p>即，为了使a1+a2+a3+a4最小，所使用的1、5、10元币的币数的上限为：</p>
+<p>a1=4, a2=0, a3=2 或 a1=4, a2=1, a3=1</p>
+<p>则所使用的1、5、10元币的币值上限为：</p>
+<p>4<em>1+0</em>5+2<em>10 = 24 或 4</em>1+1<em>5+1</em>10 = 19</p>
+<p>均不超过25，因此，为了使a1+a2+a3+a4最小，应使a4达到最大。贪心选择性质得证。</p>
+<p>最优子结构性质证明：</p>
+<p>当a4的值确定后，为了使a1+a2+a3+a4达到最小，须使a1+a2+a3达到最小，仍为同型的最优问题。</p>
+<h4 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h4><p>算法思想：先将所有物品按其单位重量的价值进行排序，然后，按照贪心策略，将尽可能多的单位重量价值最高的物品装入；若装入后，背包内的物品总重量未超过C，则选择单位重量价值次高的物品尽可能多地装入。依此策略一直进行下去，直到背包装满或物品装完为止。</p>
+<p>贪心性质证明：</p>
+<p>不失一般性，只要对第一个步骤进行证明即可。</p>
+<p>设按以上方法第一个步骤装入地重量为w1’。（对单位价值最大的物品）</p>
+<p>若存在一种装入方式，单位价值最大的物品装入数为w1‘’&lt;w1’ ，且得到了最优结果。</p>
+<p>不妨设其他的物品被装入重量为w2’’,…,wn’’。</p>
+<p>现对该方案作部分调整，将单位价值最高的物品的装入量改为w1’，而将由此产生的超重w1’-w1’’在后面的各物品上分摊（减少），这样的方案获得的价值必然超过原方案价值且不超重，与假设矛盾。故单位价值最大的物品的装入数必然为w1’ 。</p>
+<h2 id="活动安排问题"><a href="#活动安排问题" class="headerlink" title="活动安排问题"></a>活动安排问题</h2><p>活动安排问题就是要在所给的活动集合中选出 最大的相容活动子集合，是可以用贪心算法有效求解的很好例子。该问题要求高效地安排一系列争用某一公共资源的活动。贪心算法提供了一个简单、漂亮的方法使得尽可能多的活动能兼容地使用公共资源。</p>
+<p>设有n个活动的集合E={1,2,…,n}，其中每个活动都要 求使用同一资源，如演讲会场等，而在同一时间内只有一个活动能使用这一资源。每个活动i都有一个要求使用该资 源的起始时间si和一个结束时间fi,且si&lt;fi 。如果选择了活动i，则它在半开时间区间[si, fi)内占用资源。若区间[si, fi)与区间[sj, fj)不相交，则称活动i与活动j是相容的。也就是说，当si≥fj或sj≥fi时，活动i与活动j相容。</p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>输入的活动以其完成时间的非减序排列， 算法每次总是选择具有最早完成时间的相容活动加入集合A中。直观上，按这种方法选择相容活动为未安排活动留下尽可能多的时间。也就是说，该算法的贪心选择的意义是使剩余的可安排时间段极大化，以便安排尽可能多的相容活动。</p>
+<h3 id="贪心选择性质-1"><a href="#贪心选择性质-1" class="headerlink" title="贪心选择性质"></a>贪心选择性质</h3><p>假设有一个最大相容活动集，Ei1,Ei2,…,Eik**(**已按结束时间排序)<strong>，</strong>活动数为K。现在证明按照贪心策略一定可以找到同样数量的相容活动集。</p>
+<p>假设i1&gt;1，则将活动Ei1换成E1后依然是相容的（因为E1更早结束）；</p>
+<p>依次类推，只要不符合贪心策略，就可按贪心策略进行活动替换，得到数量相等的相容基。这说明按照贪心策略一定可以得到最大相容集。因此，按照以上贪心策略，进行局部最优选择，一定可以导致最终得到整体最优解。</p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><p>各活动的起始时间和结束时间存储于数组s和f中且按结束时间的非减序排列。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GreedySelector</span><span class="params">(<span class="keyword">int</span> n, T s[], T f[], bool A[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	A[<span class="number">1</span>]=<span class="keyword">true</span>;</span><br><span class="line"> 	<span class="keyword">int</span> j=<span class="number">1</span>;</span><br><span class="line"> 	<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)</span><br><span class="line"> 	&#123;</span><br><span class="line"> 		<span class="keyword">if</span> (s[i]&gt;=f[j]) </span><br><span class="line"> 		&#123; </span><br><span class="line"> 			A[i]=<span class="keyword">true</span>; </span><br><span class="line"> 			j=i; </span><br><span class="line"> 		&#125;</span><br><span class="line"> 		<span class="keyword">else</span> A[i]=<span class="keyword">false</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>算法greedySelector的效率极高。当输入的活动已按结束时间的非减序排列，算法只需O(n)的时间安排n个活动，使最多的活动能相容地使用公共资源。如果所给出的活动未按非减序排列，可以用O(nlogn)的时间重排。</p>
+<h2 id="背包问题-1"><a href="#背包问题-1" class="headerlink" title="背包问题"></a>背包问题</h2><p>与0-1背包问题类似，所不同的是在选择物品i装入背包时，可以选择物品i的一部分，而不一定要全部装 入背包，1≤i≤n。 这2类问题都具有最优子结构性质，极为相似，但背 包问题可以用贪心算法求解，而0-1背包问题却不能用贪心算法求解。</p>
+<h3 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h3><p>首先计算每种物品单位重量的价值Vi/Wi，然后，依贪心选择策略，将尽可能多的单位重量价值最高的物品装入背包。 若将这种物品全部装入背包后，背包内的物品总重量未超过 C，则选择单位重量价值次高的物品并尽可能多地装入背包。 依此策略一直地进行下去，直到背包装满为止。</p>
+<h3 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">knapsack</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">float</span> M,<span class="keyword">float</span> v[],<span class="keyword">float</span> w[],<span class="keyword">float</span> x[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//按照单位重量的价值从大到小排序</span></span><br><span class="line">    sort(n,v,w);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        x[i]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">float</span> c=M;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(w[i]&gt;c)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        x[i]=<span class="number">1</span>;</span><br><span class="line">        c-=w[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;n)</span><br><span class="line">        x[i]=c/w[i]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先计算每种物品单位重量的价值Vi/Wi，然后，依贪心选择策略，将尽可能多的单位重量价值最高的物品装入背包。 若将这种物品全部装入背包后，背包内的物品总重量未超过C，则选择单位重量价值次高的物品并尽可能多地装入背包。 依此策略一直地进行下去，直到背包装满为止。如果到最后装入某物品后背包内的物品总重量超过C，则选择将物品不全部装入，但占用背包剩余的全部容量。</p>
+<p>对于0-1背包问题，贪心选择之所以不能得到最优解是因为在这种情况下，它无法保证最终能将背包装满，部分闲置的背包空间使每公斤背包空间的价值降低了。事实上， 在考虑0-1背包问题时，应比较选择该物品和不选择该物品所导致的最终方案，然后再作出最好选择。由此就导出许多互相重叠的子问题。这正是该问题可用动态规划算法-求解的另一重要特征。 </p>
+<p>实际上也是如此，动态规划算法的确可以有效地解0- 1背包问题。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/">http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/background_img/Irena.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/"><img class="prev-cover" src="/img/background_img/cute3.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2022/01/05/java%E5%B0%8F%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/SHA-1/"><img class="next-cover" src="/img/background_img/top_img1.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SHA-1算法的Java实现</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">贪心算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%AD%90%E7%BB%93%E6%9E%84%E6%80%A7%E8%B4%A8"><span class="toc-number">1.1.</span> <span class="toc-text">最优子结构性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83%E9%80%89%E6%8B%A9%E6%80%A7%E8%B4%A8"><span class="toc-number">1.2.</span> <span class="toc-text">贪心选择性质</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83%E9%80%89%E6%8B%A9%E6%80%A7%E8%B4%A8%E8%AF%81%E6%98%8E"><span class="toc-number">1.2.1.</span> <span class="toc-text">贪心选择性质证明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B4%A7%E5%B8%81%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">货币系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">背包问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B4%BB%E5%8A%A8%E5%AE%89%E6%8E%92%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">活动安排问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="toc-number">1.3.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83%E9%80%89%E6%8B%A9%E6%80%A7%E8%B4%A8-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">贪心选择性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">伪代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98-1"><span class="toc-number">1.4.</span> <span class="toc-text">背包问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-1"><span class="toc-number">1.4.2.</span> <span class="toc-text">伪代码</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.212Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/cute2.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.180Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E6%B3%95%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/blog_index.jpg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E6%B3%95%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.178Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/cute3.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.176Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" title="无题"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.174Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">it feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

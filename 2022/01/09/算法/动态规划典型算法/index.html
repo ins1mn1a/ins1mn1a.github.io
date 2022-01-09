@@ -1,0 +1,283 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ins1mn1a | ins1mn1a</title><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="动态规划动态规划算法与分治法类似，其基本思想也是将待求解问题分解成若干子问题，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适用于动态规划法求解的问题，经分解得到的子问题往往不是相互独立的。在用分治法求解的时候，有些子问题被重复计算了许多次。如果能够保存已解决的子问题的答案，而在需要的时候再找出已求得的答案，就可以避免大量重复计算，从而得到多项式时间的算法。 动态规划算法适用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ins1mn1a">
+<meta property="og:url" content="http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="动态规划动态规划算法与分治法类似，其基本思想也是将待求解问题分解成若干子问题，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适用于动态规划法求解的问题，经分解得到的子问题往往不是相互独立的。在用分治法求解的时候，有些子问题被重复计算了许多次。如果能够保存已解决的子问题的答案，而在需要的时候再找出已求得的答案，就可以避免大量重复计算，从而得到多项式时间的算法。 动态规划算法适用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/cute3.jpeg">
+<meta property="article:published_time" content="2022-01-09T02:45:48.176Z">
+<meta property="article:modified_time" content="2022-01-09T02:47:32.023Z">
+<meta property="article:author" content="ins1mnia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/cute3.jpeg"><link rel="shortcut icon" href="/img/background_img/%E7%8E%89%E5%AD%90.icon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ins1mn1a',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-09 10:47:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/background_img/cute3.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-09T02:45:48.176Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-09T02:47:32.023Z" title="更新于 2022-01-09 10:47:32">2022-01-09</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h1><p>动态规划算法与分治法类似，其基本思想也是将待求解问题分解成若干子问题，先求解子问题，然后从这些子问题的解得到原问题的解。与分治法不同的是，适用于动态规划法求解的问题，经分解得到的子问题往往不是相互独立的。在用分治法求解的时候，有些子问题被重复计算了许多次。如果能够保存已解决的子问题的答案，而在需要的时候再找出已求得的答案，就可以避免大量重复计算，从而得到多项式时间的算法。</p>
+<p>动态规划算法适用于解最优化问题，通常可以按以下步骤设计的动态规划算法：</p>
+<ol>
+<li>找出最优解的性质，并刻画其结果特征。</li>
+<li>递归地定义最优值。</li>
+<li>以自底向上的方式计算出最优值。</li>
+<li>根据计算最优值时得到的信息，构造最优解。</li>
+</ol>
+<h2 id="最大子段和"><a href="#最大子段和" class="headerlink" title="最大子段和"></a>最大子段和</h2><p>先来看一下最大子段和用分治法思想的分析：</p>
+<p>如果将所给的序列a[1 :  n]分为长度相同的两段a[1 : n/2]、a[n/2+1 : n]，分别求出这两段的最大子段和，则a[1 : n]的最大子段和分为三种情况：</p>
+<ol>
+<li>a[1 : n]的最大子段和同a[1 : n/2]的最大子段和相同。</li>
+<li>a[1 : n]的最大子段和同a[n/2 : n]的最大子段和相同。</li>
+<li>a[1 : n]的最大子段和等于位于a[1 : n/2]的子段和和位于a[n/2+1 : n]的子段和的和</li>
+</ol>
+<p>1和2的情况可以直接递归求得，第3种情况，a[n/2]和a[n/2+1]在最优子序列之中，我们只需要计算出左边a[1 : n/2]从n/2开始的最大子段和s1，右边a[ n/2+1 : n]从n/2+1开始的最大子段和，然后将两者相加s=s1+s2；s即为第3种情况的最优值。</p>
+<h3 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h3><p>从上述分治法思想注意到，我们可以记b[ j ]为1 ~ j 中的最大子段和，其中j∈[1，n]；<img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106135813232.png" alt="image-20211106135813232"></p>
+<p>这样，那么所求的1 ~ n 中的最大子段和就为 i~j 的和可以表示为：</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106135834099.png" alt="image-20211106135834099"></p>
+<p>意思就是，j从1到n，依次找到最大子段和。</p>
+<p>由b[ j ]的定义易知，当b[ j-1 ]&gt;0 时b[ j ]= b[ j-1 ] +a[j]，否则 b[ j ]=a[ j ]。 由此可得计算b[j]的动态规划递归式：</p>
+<p><strong>b[j] = max {b[j-1] +a[j], a[j] } ，1≤j ≤ n</strong></p>
+<p>当前的最优解，就等于前一个最优解加上当前值和当前值中的较大者。</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106141924973.png" alt="image-20211106141924973"></p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">MaxSum</span><span class="params">(<span class="keyword">int</span> []a,<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> b=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(b&gt;<span class="number">0</span>)</span><br><span class="line">            b+=a[i];</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            b=a[i];</span><br><span class="line">        <span class="keyword">if</span>(b&gt;sum)</span><br><span class="line">            sum=b;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="矩阵连乘问题"><a href="#矩阵连乘问题" class="headerlink" title="矩阵连乘问题"></a>矩阵连乘问题</h2><p>给定n个矩阵{A1，A2……An} ， 其中Ai与Ai+1可乘，i=1,2,3…n-1 。 如何确定计算矩阵连乘积的计算次序，使得依此次序计算矩阵连乘积需要的数乘次数最少。</p>
+<p>考察这n个矩阵的连乘积     A1A2…An</p>
+<p>由于矩阵乘法满足结合律，所以计算矩阵的连乘可以有许多不同的计算次序。这种计算次序可以用加括号的方式来确定。 </p>
+<p>若一个矩阵连乘积的计算次序完全确定，也就是说该连乘积已完全加括号，则可以依此次序反复调用2个矩阵相乘的标准算法计算出矩阵连乘积。</p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>将矩阵连乘积 AiAi+1…Aj简记为A[i:j] ，这里i ≤ j  考察计算A[i:j]的最优计算次序。设这个计算次序在矩阵 Ak和Ak+1之间将矩阵链断开，i≤k&lt;j，则其相应完全加括号方式为<img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106143929876.png" alt="image-20211106143929876"></p>
+<p>计算量：A[i:k]的计算量加上A[k+1:j]的计算量，再加上 A[i:k]和A[k+1:j]相乘的计算量。</p>
+<p><strong>最优解结构</strong>：</p>
+<ul>
+<li><p>特征：计算A[i:j]的最优次序所包含的计算矩阵子链 A[i:k]和A[k+1:j]的次序也是最优的。 </p>
+</li>
+<li><p>矩阵连乘计算次序问题的最优解包含着其子问题的最优解。这种性质称为最优子结构性质。问题的最优子结构性质是该问题可用动态规划算法求解的显著特征。</p>
+</li>
+</ul>
+<p><strong>建立递归关系</strong>：</p>
+<ol>
+<li><p>设计算A[i:j]，1≤i≤j≤n，所需要的最少数乘次数m[i,j]，则原问题的最优值为m[1,n]</p>
+</li>
+<li><p>当i=j时，A[i:j]=Ai，因此，m[i,i]=0，i=1,2,…,n</p>
+</li>
+<li><p>当i&lt;j时，m[i , j]=m[i , k] + m[k+1 , j] + pi-1 * pk * pj ，这里Ai的维数为pi-1 * pi</p>
+</li>
+<li><p>递归的定义m[i , j]为：</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106144514820.png" alt="image-20211106144514820"></p>
+<p>k的位置只有j-i种可能。</p>
+</li>
+</ol>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106150225461.png" alt="image-20211106150225461"></p>
+<p>计算的时候是斜着对角进行计算的，这样再计算下一轮的时候就可以用到前面已经求得的值。</p>
+<p>计算过程：</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106150353882.png" alt="image-20211106150353882"></p>
+<p>比如m[2] [5]就可以表示为：</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106150243929.png" alt="image-20211106150243929"></p>
+<h3 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">matrixChain</span><span class="params">(<span class="keyword">int</span> []p,<span class="keyword">int</span> n,<span class="keyword">int</span> [][]m,<span class="keyword">int</span> [][]s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//初始化对角线全为0 因为当i=j时，A[i:j]=Ai，因此，m[i,i]=0</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) m[i][i]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r=<span class="number">2</span>;r&lt;=n;r++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n-r+<span class="number">1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> j=i+r-<span class="number">1</span>;</span><br><span class="line">            <span class="comment">//这是把 m[i][j]分成i-&gt;i i+1-&gt;j的情形，m[i][i]=0</span></span><br><span class="line">            <span class="comment">//m[i , j]=m[i , k] + m[k+1 , j] + pi-1 * pk * pj</span></span><br><span class="line">            m[i][j]= m[i+<span class="number">1</span>][j]+ p[i-<span class="number">1</span>]*p[i]*p[j];</span><br><span class="line">            s[i][j] = i;</span><br><span class="line">            <span class="comment">//这里就是除了i-&gt;i i+1-&gt;j的情形以外的情况，要找到最小值</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = i+<span class="number">1</span>; k &lt; j; k++) &#123;</span><br><span class="line">                <span class="keyword">int</span> t = m[i][k] + m[k+<span class="number">1</span>][j] + p[i-<span class="number">1</span>]*p[k]*p[j];</span><br><span class="line">                <span class="keyword">if</span> (t &lt; m[i][j]) </span><br><span class="line">                &#123;</span><br><span class="line">                    m[i][j] = t;</span><br><span class="line">                    s[i][j] = k;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>算法复杂度分析： 算法matrixChain的主要计算量取决于算法中对r，i 和 k 的3重循环。循环体内的计算量为O(1)，而3重循环的总次数为O(n^3 )。因此算法的计算时间上界为O(n^3 )。算法所占用的空间显然为O(n^2 )。</p>
+<h2 id="最长公共子序列问题"><a href="#最长公共子序列问题" class="headerlink" title="最长公共子序列问题"></a>最长公共子序列问题</h2><p>若给定序列X={x1 ,x2 ,…,xm}，则另一序列 Z={z1 ,z2 ,…,zk }，是X的子序列是指存在一个严格递增 下标序列{i1 ,i2 ,…,ik }使得对于所有j=1,2,…,k有：zj=xi。 例如，序列Z={B，C，D，B}是序列X={A，B，C，B， D，A，B}的子序列，相应的递增下标序列为{2，3，5， 7}。</p>
+<p>给定2个序列X和Y，当另一序列Z既是X的子序列又是 Y的子序列时，称Z是序列X和Y的公共子序列。</p>
+<p>给定2个序列X={x1,x2,…,xm}和Y={y1,y2,…,yn}，找 出X和Y的最长公共子序列。</p>
+<h3 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h3><p>设序列X={x1 ,x2 ,…,xm}和Y={y1 ,y2 ,…,yn }的最长公共子序列为 Z={z1 ,z2 ,…,zk } ，则</p>
+<ul>
+<li>若xm==yn，则zk=xm=yn。X与Y的最长公共子序列为{x1 ,x2 ,…,x(m-1)}，{y1 ,y2 ,…,y(n-1) }的最长公共子序列+xm</li>
+<li>若xm!=yn且zk!=xm，则X与Y的最长公共子序列为{x1 ,x2 ,…,x(m-1)}，{y1 ,y2 ,…,yn }的最长公共子序列</li>
+<li>若xm!=yn且zk!=yn，则X与Y的最长公共子序列为{x1 ,x2 ,…,xm}，{y1 ,y2 ,…,y(n-1) }的最长公共子序列</li>
+</ul>
+<p>由此可见，2个序列的最长公共子序列包含了这2个序列的前缀 的最长公共子序列。因此，最长公共子序列问题具有最优子结 构性质。</p>
+<p>由最长公共子序列问题的最优子结构性质建立子问题最优值的递归关系。用c[i] [j]记录序列和的最长公共子序列的长度。其中，Xi={x1 ,x2 ,…,xi }；Yj={y1 ,y2 ,…,yj }。当i=0或j=0时，空序列是Xi和Yj的最长公共子序列。故此时C[i] [j]=0。其它情况下，由最优子结构性质可建立递归关系如下：</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106152638761.png" alt="image-20211106152638761"></p>
+<p>Algorithms和alchemist：</p>
+<p>i=0和j=0，则c[i] [j]为0；然后，首先X1  A 和Y1  A相同，那么就取左上方c[i-1] [j-1]+1 ；接下来，X1 A和Y2 L不同，则c[i] [j] 就等于左边c[i] [j-1] 和 上边 c[i-1] [j] 中的较大者。</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106155347486.png" alt="image-20211106155347486"></p>
+<h3 id="伪代码-2"><a href="#伪代码-2" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LCSLength</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n,<span class="keyword">char</span> []x,<span class="keyword">char</span> []y,<span class="keyword">int</span> [][]c,<span class="keyword">int</span> [][]b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> j=<span class="number">1</span>;</span><br><span class="line">    <span class="comment">//i=0或者j=0，空序列为最长公共子序列，因此c[i][j]=0</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=m;i++)</span><br><span class="line">        c[i][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        c[<span class="number">0</span>][i]=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= m; i++)</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">1</span>; j &lt;= n; j++) </span><br><span class="line">        &#123;</span><br><span class="line">			<span class="keyword">if</span> (x[i]==y[j]) </span><br><span class="line">            &#123; </span><br><span class="line">				c[i][j]=c[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>; </span><br><span class="line">                <span class="comment">//记录</span></span><br><span class="line">                b[i][j]=<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (c[i-<span class="number">1</span>][j]&gt;=c[i][j-<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                c[i][j]=c[i-<span class="number">1</span>][j];</span><br><span class="line">            	b[i][j]=<span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                c[i][j]=c[i][j-<span class="number">1</span>]; </span><br><span class="line">                b[i][j]=<span class="number">3</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//构造最长公共子序列</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LCS</span><span class="params">(<span class="keyword">int</span> i，<span class="keyword">int</span> j，<span class="keyword">char</span> []x，<span class="keyword">int</span> []b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (i ==<span class="number">0</span> || j==<span class="number">0</span>) </span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span> (b[i][j]== <span class="number">1</span>)</span><br><span class="line">    &#123; </span><br><span class="line">        LCS(i-<span class="number">1</span>，j-<span class="number">1</span>，x，b); </span><br><span class="line">        System.out.print(x[i]+<span class="string">&quot; &quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (b[i][j]== <span class="number">2</span>) </span><br><span class="line">        LCS(i-<span class="number">1</span>，j，x，b);</span><br><span class="line">	<span class="keyword">else</span> LCS(i，j-<span class="number">1</span>，x，b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>算法LCSLength耗时O(m*n)，算法LCS的计算时间为O(m+n)。</p>
+<h2 id="0-1背包问题"><a href="#0-1背包问题" class="headerlink" title="0-1背包问题"></a>0-1背包问题</h2><p>给定n种物品和一背包。物品i的重量是wi，其价值为vi，背包的容量为C。问应如何选择装入背包的物品，使得装入背包中物品的总价值最大?</p>
+<p>设所给0-1背包问题的子问题<img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106191015562.png" alt="image-20211106191015562"></p>
+<p>的最优值为m[i] [j]，即m(i,j)是背包容量为j，可选择物品为i，i+1，…，n时0-1背包问题的最优值。</p>
+<p>由0-1背包问题的最优子结构性质，可以建立如下计算m(i，j)的递归式：</p>
+<p><img src="/../../img/markdown_img/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95.assets/image-20211106191335277.png" alt="image-20211106191335277"></p>
+<p>递归式的意思就是：如果当前背包容量小于当前物品的重量，那么就是不能装下，这样就等于下一个到m(i+1 , j)。如果当前背包容量能大于当前物品的重量，那么就是能装下，这样就只需要比较装下该物品（如果选择装下该物品，那么前面物品的总价值就会被压缩，因为该物品占了重量所以要去找m(i+1 , j-wi)然后再加上刚装下物品的价值）或者不装该物品，哪一个得到的价值更大。</p>
+<h3 id="伪代码-3"><a href="#伪代码-3" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">knapsack</span><span class="params">(<span class="keyword">int</span> []v,<span class="keyword">int</span> []w,<span class="keyword">int</span> c,<span class="keyword">int</span> [][]m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n=v.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;c;i++)</span><br><span class="line">        m[<span class="number">0</span>][i]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        m[i][<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&gt;=c;j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(j&gt;=w[i])</span><br><span class="line">                m[i][j]=max(m[i-<span class="number">1</span>][j],m[i-<span class="number">1</span>][j-w[i]]+v[i]);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                m[i][j]=m[i-<span class="number">1</span>][j];</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里用m[i] [j]=max(m[i-1] [j],m[i-1] [j-w[i]]+v[i]);同上方i+1意思是一样的，只不过初始化不同。</p>
+<p>时间复杂度O(nc)；</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/">http://ins1mn1a.github.io/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/background_img/cute3.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E6%B3%95%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/"><img class="prev-cover" src="/img/background_img/blog_index.jpg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/"><img class="next-cover" src="/img/background_img/Irena.png" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info"></div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="toc-number">1.</span> <span class="toc-text">动态规划</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C"><span class="toc-number">1.1.</span> <span class="toc-text">最大子段和</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E6%83%B3"><span class="toc-number">1.1.1.</span> <span class="toc-text">算法思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.2.</span> <span class="toc-text">伪代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E8%BF%9E%E4%B9%98%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">矩阵连乘问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">伪代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E5%BA%8F%E5%88%97%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">最长公共子序列问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-2"><span class="toc-number">1.3.2.</span> <span class="toc-text">伪代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">0-1背包问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81-3"><span class="toc-number">1.4.1.</span> <span class="toc-text">伪代码</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.212Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/cute2.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.180Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E6%B3%95%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/blog_index.jpg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%88%86%E6%B2%BB%E6%B3%95%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.178Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题"><img src="/img/background_img/cute3.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%85%B8%E5%9E%8B%E7%AE%97%E6%B3%95/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.176Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" title="无题"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/01/09/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98/" title="无题">无题</a><time datetime="2022-01-09T02:45:48.174Z" title="发表于 2022-01-09 10:45:48">2022-01-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">it feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
