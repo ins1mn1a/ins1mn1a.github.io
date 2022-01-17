@@ -245,6 +245,13 @@
 
   
   <url>
+    <loc>http://ins1mn1a.github.io/tags/Bug/</loc>
+    <lastmod>2022-01-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://ins1mn1a.github.io/tags/SDN/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -252,7 +259,7 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/tags/Bug/</loc>
+    <loc>http://ins1mn1a.github.io/tags/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -280,6 +287,13 @@
   </url>
   
   <url>
+    <loc>http://ins1mn1a.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2022-01-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://ins1mn1a.github.io/tags/Security/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -293,21 +307,14 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>http://ins1mn1a.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2022-01-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://ins1mn1a.github.io/tags/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2022-01-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
+  
+  <url>
+    <loc>http://ins1mn1a.github.io/categories/bug/</loc>
+    <lastmod>2022-01-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>http://ins1mn1a.github.io/categories/SDN%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C/</loc>
@@ -317,7 +324,7 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/categories/bug/</loc>
+    <loc>http://ins1mn1a.github.io/categories/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -345,6 +352,13 @@
   </url>
   
   <url>
+    <loc>http://ins1mn1a.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2022-01-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://ins1mn1a.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -353,20 +367,6 @@
   
   <url>
     <loc>http://ins1mn1a.github.io/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2022-01-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://ins1mn1a.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2022-01-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://ins1mn1a.github.io/categories/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2022-01-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
