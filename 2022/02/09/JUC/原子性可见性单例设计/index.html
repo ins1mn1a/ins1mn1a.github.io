@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java 内存模型 | ins1mn1a</title><meta name="keywords" content="JUC并发编程"><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="原子性、可见性、volatile原理，读写屏障、单例设计，双重检查锁DCL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 内存模型">
+<meta property="og:url" content="http://ins1mn1a.github.io/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="原子性、可见性、volatile原理，读写屏障、单例设计，双重检查锁DCL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/cute1.jpeg">
+<meta property="article:published_time" content="2022-02-09T15:01:55.449Z">
+<meta property="article:modified_time" content="2022-02-09T15:05:02.645Z">
+<meta property="article:author" content="ins1mnia">
+<meta property="article:tag" content="JUC并发编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/cute1.jpeg"><link rel="shortcut icon" href="/img/background_img/%E7%8E%89%E5%AD%90.icon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java 内存模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-09 23:05:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../img/background_img/top_img1.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java 内存模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-09T15:01:55.449Z" title="发表于 2022-02-09 23:01:55">2022-02-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-09T15:05:02.645Z" title="更新于 2022-02-09 23:05:02">2022-02-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">JUC并发编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>22分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java 内存模型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Java-内存模型"><a href="#Java-内存模型" class="headerlink" title="Java 内存模型"></a>Java 内存模型</h2><p><strong>JMM</strong> 即 <strong>Java Memory Model</strong> ，它从Java层面定义了<strong>主存</strong>、<strong>工作内存</strong>抽象概念，底层对应着CPU 寄存器、缓存、硬件内存、CPU 指令优化等。JMM 体现在以下几个方面</p>
+<ul>
+<li><strong>原子性</strong> - 保证指令不会受 线程上下文切换的影响</li>
+<li><strong>可见性</strong> - 保证指令不会受 cpu 缓存的影响 (JIT对热点代码的缓存优化)</li>
+<li><strong>有序性</strong> - 保证指令不会受 cpu 指令并行优化的影响</li>
+</ul>
+<p><strong>Java内存模型</strong>描述了Java程序中各种变量（线程共享变量）的访问规则，以及在JVM中将变量存储到内存和从内存中读取出变量这样的底层细节。<br>在内存模型中，所有的变量都存储在主内存中。<strong>每个线程都有自己独立的工作内存</strong>，里面保存该线程使用到的变量的副本(主内存中该变量的一份拷贝)。</p>
+<p><strong>JMM线程操作内存的两条基本的规定:</strong></p>
+<ol>
+<li>关于线程与主内存：线程对共享变量的所有操作都必须在自己的工作内存中进行，不能直接从主内存中读写</li>
+<li>关于线程间工作内存：不同线程之间无法直接访问其他线程工作内存中的变量，线程间变量值的传递需要经过主内存来完成。</li>
+</ol>
+<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><p><code>在主线程中修改的静态变量的值，对应t线程来说是不可见的</code></p>
+<p>这是因为t线程的run方法是个<code>while (run)</code>循环，JIT即使编译器会对t线程中的run变量进行缓存到本地工作内存，不去主存中取run的值，这样可以加快执行速度。也就是JVM达到一定阈值时，<code>while (run)</code>循环变成了<strong>热点代码</strong>， 所以一直访问的都是缓存到本地工作内存(局部)中的run。当主线程修改<strong>主存中的run变量</strong>的时候，t1线程一直访问的是自己缓存的, 所以不认为run已经改为false了。 所以一直运行并不会结束循环，我们为主存(成员变量)进行<strong>volatile</strong>修饰, 增加变量的可见性, 当主线程修改run为false, t1线程对run的值可见。这样就可以退出循环。</p>
+<p><img src="/../../img/markdown_img/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1.assets/image-20220120131625943.png" alt="image-20220120131625943"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">boolean</span> run = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    Thread t=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (run)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    t.start();</span><br><span class="line">    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">    log.debug(<span class="string">&quot;停止 t线程&quot;</span>);</span><br><span class="line">    run=<span class="keyword">false</span>;<span class="comment">// 没有volatile，事实上并不会退出t线程</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了使用<strong>volatile解决</strong>以外还可以使用<strong>synchronized解决</strong>问题</p>
+<ul>
+<li><strong>在Java内存模型中，synchronized规定，线程在加锁时，先清空工作内存，然后主内存中拷贝最新变量的副本到工作内存 ，执行完代码后，将更改后的共享变量的值刷新到主内存中，最后释放互斥锁。</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j(topic = &quot;Test1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">boolean</span> run = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> Object lock = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// 1s内,一直都在无限循环获取锁. 1s后主线程抢到锁,修改为false, 此时t1线程抢到锁对象,while循环也退出</span></span><br><span class="line">            <span class="keyword">while</span> (run) &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(!run)</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line">        Sleeper.sleep(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 当主线程获取到锁的时候, 就修改为false了</span></span><br><span class="line">        <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">            run = <span class="keyword">false</span>;</span><br><span class="line">            System.out.println(<span class="string">&quot;false&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><ul>
+<li>前面例子体现的实际就是<code>可见性</code>，<strong>它保证的是在多个线程之间一个线程对 volatile 变量的修改对另一个线程可见</strong>， <strong>而不能保证原子性</strong>。volatile用在一个写线程，多个读线程的情况, 比较合适。 上例从字节码理解是这样的：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getstatic run <span class="comment">// 线程 t 获取 run true</span></span><br><span class="line">getstatic run <span class="comment">// 线程 t 获取 run true</span></span><br><span class="line">getstatic run <span class="comment">// 线程 t 获取 run true</span></span><br><span class="line">getstatic run <span class="comment">// 线程 t 获取 run true</span></span><br><span class="line">putstatic run <span class="comment">// 线程 main 修改 run 为 false， 仅此一次</span></span><br><span class="line">getstatic run <span class="comment">// 线程 t 获取 run false </span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>比较一下之前线程安全时的例子：两个线程一个 <strong>i++</strong> 一个 <strong>i–</strong> ，只能<strong>保证</strong>看到最新值(<strong>可见性</strong>)，<strong>不能</strong>解决<strong>指令交错(原子性)</strong></li>
+</ul>
+<p><strong>注意</strong> ：</p>
+<ul>
+<li><strong>synchronized</strong> 语句块既可以<strong>保证</strong>代码块的<strong>原子性</strong>，也同时<strong>保证</strong>代码块内变量的<strong>可见性</strong>。但缺点是 synchronized 是属于重量级操作，性能相对更低。</li>
+<li> 如果在前面示例的死循环中加入 <strong>System.out.println()</strong> 会发现即使不加 volatile 修饰符，线程 t 也能正确看到 对 run 变量的修改了</li>
+<li>因为<strong>System.out.println() 方法里面有synchronized修饰</strong>。</li>
+</ul>
+<h2 id="volatile实现模式之两阶段终止"><a href="#volatile实现模式之两阶段终止" class="headerlink" title="volatile实现模式之两阶段终止"></a>volatile实现模式之两阶段终止</h2><ul>
+<li>当我们在执行线程一时，想要终止线程二，这是就需要使用<code>interrupt方法</code>来优雅的停止线程二。这是之前的做法</li>
+</ul>
+<ul>
+<li>使用volatile关键字来实现两阶段终止模式</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j(topic = &quot;Test1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 下面是两个线程操作共享变量stop</span></span><br><span class="line">        Monitor monitor = <span class="keyword">new</span> Monitor();</span><br><span class="line">        monitor.start();</span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">3500</span>);</span><br><span class="line">        monitor.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf4j(topic = &quot;Monitor&quot;)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Monitor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// private boolean stop = false; // 不会停止程序</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> stop = <span class="keyword">false</span>; <span class="comment">// 会停止程序</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 启动监控器线程</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread monitor = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">//开始不停的监控</span></span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (stop) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        monitor.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 用于停止监控器线程</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stop = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="模式之-Balking"><a href="#模式之-Balking" class="headerlink" title="模式之 Balking"></a>模式之 Balking</h2><ul>
+<li>定义：<code>Balking （犹豫）模式</code>用在 <strong><code>一个线程发现另一个线程或本线程已经做了某一件相同的事，那么本线程就无需再做了，直接结束返回</code>。有点类似于单例。</strong></li>
+</ul>
+<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p>JIT即时编译器的优化，可能会导致<strong>指令重排</strong>。为什么要优化? 因为CPU 支持多级指令流水线，例如支持同时执行 <code>取指令 - 指令译码 - 执行指令 - 内存访问 - 数据写回</code> 的处理器，效率更快 </p>
+<h3 id="支持流水线的处理器"><a href="#支持流水线的处理器" class="headerlink" title="支持流水线的处理器"></a>支持流水线的处理器</h3><p>现代 CPU 支持多级指令流水线，例如支持同时执行 取指令 - 指令译码 - 执行指令 - 内存访问 - 数据写回 的处理器，就可以称之为五级指令流水线。这时 CPU 可以在一个时钟周期内，同时运行五条指令的不同阶段（相当于一 条执行时间长的复杂指令），本质上，流水线技术并不能缩短单条指令的执行时间，但它变相地提高了指令地吞吐率。</p>
+<p><img src="/../../img/markdown_img/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1.assets/image-20220120155001076.png" alt="image-20220120155001076"></p>
+<p><strong>在多线程环境下，指令重排序可能导致出现意料之外的结果</strong></p>
+<h3 id="指令重排序导致错误结果"><a href="#指令重排序导致错误结果" class="headerlink" title="指令重排序导致错误结果"></a>指令重排序导致错误结果</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// volatile 修饰的变量，可以禁用指令重排 volatile boolean ready = false; 可以防止变量之前的代码被重排序</span></span><br><span class="line"><span class="keyword">boolean</span> ready = <span class="keyword">false</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程1 执行此方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actor1</span><span class="params">(I_Result r)</span> </span>&#123;</span><br><span class="line">	 <span class="keyword">if</span>(ready) &#123;</span><br><span class="line">	 	r.r1 = num + num;</span><br><span class="line">	 &#125; </span><br><span class="line">	 <span class="keyword">else</span> &#123;</span><br><span class="line">	 	r.r1 = <span class="number">1</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 线程2 执行此方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actor2</span><span class="params">(I_Result r)</span> </span>&#123;</span><br><span class="line">	 num = <span class="number">2</span>;</span><br><span class="line">	 ready = <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>线程1执行actor1方法, 线程2执行actor2方法</p>
+<p>但是最终的结果还有可能让r.r1=0</p>
+<ul>
+<li><p>这样情况是在actor2方法进行了<strong>指令重排序</strong>，因为<code> num = 2;</code>和<code>ready = true;</code>互相之间看起来并没有影响，因此先执行<code>ready = true;</code>，这时候num=2还没执行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">num = <span class="number">2</span>;</span><br><span class="line">ready = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重排序后</span></span><br><span class="line">ready = <span class="keyword">true</span>;</span><br><span class="line"><span class="comment">//此时发生线程切换</span></span><br><span class="line">num = <span class="number">2</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>此时，发送线程上下文切换，<code>ready = true;</code>，线程1判断为true，就<code>r.r1=num+num</code>，最后r.r1=0;</p>
+</li>
+</ul>
+<p>这种现象叫做指令重排，是JIT 编译器在运行时的一些优化，这个现象需要通过大量测试才能复现，可以使用jcstress工具进行测试。上面仅是从代码层面体现出了有序性问题，下面的 <strong>double-checked locking</strong> (双重检查锁)还会从java字节码的层面了解有序性的问题。</p>
+<p><strong>指令重排序</strong>操作<strong>不会对</strong>存在<strong>数据依赖关系</strong>的操作进行<strong>重排序</strong>。比如：a=1;b=a; 这个指令序列，由于第二个操作依赖于第一个操作，所以在编译时和处理器运行时这两个操作不会被重排序。</p>
+<p>重排序是为了优化性能，但是不管怎么重排序，<strong>单线程</strong>下程序的执行结果<strong>不会被改变</strong>。</p>
+<p><strong>指令重排序 在 单线程模式下是一定会保证最终结果的正确性，</strong> 但是在多线程环境下，问题就出来了。</p>
+<p><strong>解决方法</strong>：<code>volatile 修饰的变量，可以禁用指令重排</code></p>
+<h2 id="volatile原理"><a href="#volatile原理" class="headerlink" title="volatile原理"></a>volatile原理</h2><p><strong>volatile</strong> 的<strong>底层实现</strong>原理是<strong>内存屏障</strong>，<strong>Memory Barrier</strong>（Memory Fence）</p>
+<p>对 volatile 变量的<strong>写指令</strong>后会加入<strong>写屏障</strong>。(保证写屏障之前的写操作, <strong>都能同步到主存中</strong>)</p>
+<p>对 volatile 变量的<strong>读指令</strong>前会加入<strong>读屏障</strong>。(保证读屏障之后的读操作, <strong>都能读到主存的数据</strong>)</p>
+<h3 id="volatile保证可见性原理"><a href="#volatile保证可见性原理" class="headerlink" title="volatile保证可见性原理"></a>volatile保证可见性原理</h3><ul>
+<li><p><strong>写屏障（sfence）保证在该屏障之前的，对共享变量的改动，都同步到主存当中</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actor2</span><span class="params">(I_Result r)</span> </span>&#123;</span><br><span class="line">     num = <span class="number">2</span>;</span><br><span class="line">     ready = <span class="keyword">true</span>; <span class="comment">// ready是被volatile修饰的 ，赋值带写屏障</span></span><br><span class="line">     <span class="comment">// 写屏障(在ready=true写指令之后加的, </span></span><br><span class="line">     <span class="comment">//在该屏障之前对共享变量的改动, 都同步到主存中，包括num)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>读屏障（lfence）保证在该屏障之后，对共享变量的读取，加载的是主存中最新数据</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actor1</span><span class="params">(I_Result r)</span> </span>&#123;</span><br><span class="line">	 <span class="comment">// 读屏障</span></span><br><span class="line">	 <span class="comment">//  ready是被volatile修饰的 ，读取值带读屏障</span></span><br><span class="line">	 <span class="keyword">if</span>(ready) &#123;	<span class="comment">// ready, 读取的就是主存中的新值</span></span><br><span class="line">	 	r.r1 = num + num; <span class="comment">// num, 读取的也是主存中的新值</span></span><br><span class="line">	 &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	 	r.r1 = <span class="number">1</span>;</span><br><span class="line">	 &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="volatile保证有序性原理"><a href="#volatile保证有序性原理" class="headerlink" title="volatile保证有序性原理"></a>volatile保证有序性原理</h3><ul>
+<li><strong>写屏障</strong>会确保<strong>指令重排序</strong>时，<strong>不会将写屏障之前的代码排在写屏障之后</strong></li>
+<li><strong>读屏障</strong>会确保<strong>指令重排序</strong>时，<strong>不会将读屏障之后的代码排在读屏障之前</strong></li>
+</ul>
+<h3 id="volatile不能解决指令交错-不能解决原子性-："><a href="#volatile不能解决指令交错-不能解决原子性-：" class="headerlink" title="volatile不能解决指令交错 (不能解决原子性)："></a>volatile不能解决<strong>指令交错</strong> (不能解决<strong>原子性</strong>)：</h3><ul>
+<li>写屏障仅仅是保证之后的读能够读到最新的结果，但不能保证其它线程的读, 跑到它前面去</li>
+<li><strong>有序性的保证也只是保证了本线程内相关代码不被重排序</strong>，并不能保证指令的交错</li>
+<li>比如线程2先读到i，然后被切换成了线程1执行完后，线程2还是把i当做没更新的i值执行。可以使用<code>synchronized</code>来解决原子性</li>
+</ul>
+<h2 id="double-checked-locking-双重检查锁"><a href="#double-checked-locking-双重检查锁" class="headerlink" title="double-checked locking (双重检查锁)"></a>double-checked locking (双重检查锁)</h2><p>首先<strong>synchronized</strong>可以<strong>保证</strong>它的临界区的资源是<strong>原子性、可见性、有序性</strong>的, <strong>有序性的前提</strong>是, 在synchronized代码块中的共享变量, 不会在代码块外使用到, 否则<strong>有序性</strong>不能被保证, 只能使用<strong>volatile</strong>来保证有序性。<br>下面代码的第二个双重检查单例，就出现了这个问题(在synchronized外使用到了INSTANCE)，此时synchronized就不能防止指令重排，确保不了指令的有序性。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 最开始的单例模式是这样的</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	    <span class="comment">/*</span></span><br><span class="line"><span class="comment">	      多线程同时调用getInstance(), 如果不加synchronized锁, 此时两个线程同时</span></span><br><span class="line"><span class="comment">	      判断INSTANCE为空, 此时都会new Singleton(), 此时就破坏单例了.所以要加锁,</span></span><br><span class="line"><span class="comment">	      防止多线程操作共享资源,造成的安全问题</span></span><br><span class="line"><span class="comment">	     */</span></span><br><span class="line">	    <span class="keyword">synchronized</span>(Singleton.class) &#123;</span><br><span class="line">	    	<span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123; <span class="comment">// t1</span></span><br><span class="line">	    		INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">	        &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//INSTANCE没有加volatile</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(INSTANCE == <span class="keyword">null</span>) &#123; <span class="comment">// t2</span></span><br><span class="line">            <span class="comment">// 首次访问会同步，而之后的使用没有 synchronized</span></span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (INSTANCE == <span class="keyword">null</span>) &#123; <span class="comment">// t1</span></span><br><span class="line">                    INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>但是上面的<code>if(INSTANCE == null)</code>判断代码没有在同步代码块synchronized中，不能享有synchronized保证的原子性、可见性、以及有序性</strong>。所以可能会导致指令重排。</p>
+<p>上述方法的字节码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">0: getstatic #2 // Field INSTANCE:Lcn/itcast/n5/Singleton;</span><br><span class="line"><span class="number">3</span>: ifnonnull <span class="number">37</span> <span class="comment">// 判断是否为空</span></span><br><span class="line"><span class="comment">// ldc是获得类对象</span></span><br><span class="line">6: ldc #3 // class cn/itcast/n5/Singleton</span><br><span class="line"><span class="comment">// 复制操作数栈栈顶的值放入栈顶, 将类对象的引用地址复制了一份</span></span><br><span class="line"><span class="number">8</span>: dup</span><br><span class="line"><span class="comment">// 操作数栈栈顶的值弹出，即将对象的引用地址存到局部变量表中</span></span><br><span class="line"><span class="comment">// 将类对象的引用地址存储了一份，是为了将来解锁用</span></span><br><span class="line"><span class="number">9</span>: astore_0</span><br><span class="line"><span class="number">10</span>: monitorenter</span><br><span class="line">11: getstatic #2 // Field INSTANCE:Lcn/itcast/n5/Singleton;</span><br><span class="line"><span class="number">14</span>: ifnonnull <span class="number">27</span></span><br><span class="line"><span class="comment">// 新建一个实例</span></span><br><span class="line">17: new #3 // class cn/itcast/n5/Singleton</span><br><span class="line"><span class="comment">// 复制了一个实例的引用</span></span><br><span class="line"><span class="number">20</span>: dup</span><br><span class="line"><span class="comment">// 通过这个复制的引用调用它的构造方法</span></span><br><span class="line">21: invokespecial #4 // Method &quot;&lt;init&gt;&quot;:()V</span><br><span class="line"><span class="comment">// 最开始的这个引用用来进行赋值操作</span></span><br><span class="line">24: putstatic #2 // Field INSTANCE:Lcn/itcast/n5/Singleton;</span><br><span class="line"><span class="number">27</span>: aload_0</span><br><span class="line"><span class="number">28</span>: monitorexit</span><br><span class="line"><span class="number">29</span>: goto <span class="number">37</span></span><br><span class="line"><span class="number">32</span>: astore_1</span><br><span class="line"><span class="number">33</span>: aload_0</span><br><span class="line"><span class="number">34</span>: monitorexit</span><br><span class="line"><span class="number">35</span>: aload_1</span><br><span class="line"><span class="number">36</span>: athrow</span><br><span class="line">37: getstatic #2 // Field INSTANCE:Lcn/itcast/n5/Singleton;</span><br><span class="line"><span class="number">40</span>: areturn</span><br></pre></td></tr></table></figure>
+
+<p>上述字节码最关键的地方在于17-&gt;24</p>
+<ul>
+<li><p><strong>正常情况</strong>先新建一个实例，然后复制实例的引用，再通过这个复制的引用调用它的构造方法，最后进行赋值操作赋值给instance。</p>
+</li>
+<li><p>但是JVM可能会优化这里的代码：<code>先执行 24(赋值)，再执行 21(构造方法)</code>。也就是先给instance赋值，这样instance并不为null，这个时候t2线程进入，第一个判断，<code> if(INSTANCE == null)</code>，ifnonnull，发现不为null，跳转到37行，最终获取到一个假的不为null的对象。</p>
+</li>
+<li><p>如果两个线程 t1，t2 按如下时间序列执行：</p>
+</li>
+</ul>
+<p><img src="/../../img/markdown_img/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1.assets/image-20220120171355261.png" alt="image-20220120171355261"></p>
+<p>所以最终的问题</p>
+<ul>
+<li><code>INSTANCE = new Singleton();</code>操作不是一个<strong>原子操作</strong>, 它总共被分为4个指令，<code>21, 24两个指令</code>此时可能就会<strong>发生指令重排</strong>的问题。</li>
+<li>此时又因为 <code>0: getstatic</code> 这行代码在 monitor 控制之外，也就是说第一次判断null的时候没有在synchronized控制下，其他线程可以来获取，判断instance的值</li>
+<li>synchronized是可以保证变量的原子性、有序性和可见性，不会出现因为指令重排而产生错误，<strong>前提是</strong>：synchronized必须把这个变量完全的管理住。上面的问题就是因为第一次判空是没有被synchronized所管理到的。</li>
+</ul>
+<p>因此，解决方案就是加个volatile，<code>private static volatile Singleton INSTANCE = null</code>。加了<strong>volatile之后就会在putstatic加个写屏障，这样写屏障之前的指令就不会被重排序。</strong></p>
+<p>读写 volatile 变量操作（即getstatic操作和putstatic操作）时会加入<strong>内存屏障</strong>，保证下面两点：</p>
+<ul>
+<li><strong>可见性</strong><br>写屏障（sfence）保证在该屏障之前的 t1 对共享变量的改动，都同步到主存当中<br>读屏障（lfence）保证在该屏障之后 t2 对共享变量的读取，加载的是主存中最新数据</li>
+<li><strong>有序性</strong><br>写屏障 会确保指令重排序时，不会将写屏障之前的代码排在写屏障之后<br>读屏障 会确保指令重排序时，不会将读屏障之后的代码排在读屏障之前</li>
+<li>更底层是读写变量时使用 lock 指令来多核 CPU 之间的可见性与有序性<br>加上volatile之后, 保证了指令的有序性, 不会发生指令重排, 21就不会跑到24之后执行了</li>
+</ul>
+<p><strong>synchronized 既能保证原子性、可见性、有序性，其中有序性是在该共享变量完全被synchronized 所接管（包括共享变量的读写操作），上面的例子中synchronized 外面的 if (INSTANCE == null) 中的INSTANCE读操作没有被synchronized 接管，因此无法保证INSTANCE共享变量的有序性（即不能防止指令重排）。</strong></p>
+<p><strong>对共享变量加volatile关键字可以保证可见性和有序性，但是不能保证<code>原子性</code>（即不能防止<code>指令交错</code>）。</strong></p>
+<p><img src="/../../img/markdown_img/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1.assets/image-20220120172649628.png" alt="image-20220120172649628"></p>
+<p><img src="/../../img/markdown_img/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1.assets/image-20220120172629908.png" alt="image-20220120172629908"></p>
+<h2 id="Happens-before规则"><a href="#Happens-before规则" class="headerlink" title="Happens-before规则"></a>Happens-before规则</h2><p>happens-before规定了多共享变量的写操作对于其他线程的读操作的可见性。抛开以下规则，JVM并不能保证一个线程对共享变量的写操作对于其它线程对该共享变量的读可见。</p>
+<h3 id="synchronized锁"><a href="#synchronized锁" class="headerlink" title="synchronized锁"></a>synchronized锁</h3><p>对于synchronized锁，会保证每次去主存中读取数据，</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> Object m = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(m) &#123;</span><br><span class="line">        x = <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(m) &#123;</span><br><span class="line">        System.out.println(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="string">&quot;t2&quot;</span>).start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="volatile-变量"><a href="#volatile-变量" class="headerlink" title="volatile 变量"></a>volatile 变量</h3><ul>
+<li><p>线程对volatile 变量的写，对接下来其它线程对该变量的读可见</p>
+<p><strong>volatile修饰的变量, 通过<code>写屏障</code>, 共享到主存中, 其他线程通过<code>读屏障</code>, 读取主存的数据</strong></p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line"> 	x = <span class="number">10</span>;</span><br><span class="line">&#125;,<span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line"> 	System.out.println(x);</span><br><span class="line">&#125;,<span class="string">&quot;t2&quot;</span>).start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="start-前的写操作"><a href="#start-前的写操作" class="headerlink" title="start() 前的写操作"></a>start() 前的写操作</h3><ul>
+<li><p>线程 start() 前对变量的写，对该线程开始后对该变量的读可见</p>
+<p>线程还没启动时, 修改变量的值, 在启动线程后, 获取的变量值, 肯定是修改过的</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line">  x = <span class="number">10</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">   	System.out.println(x);</span><br><span class="line">  &#125;,<span class="string">&quot;t2&quot;</span>).start();</span><br></pre></td></tr></table></figure>
+
+<h3 id="t1-isAlive-或-t1-join-等待结束"><a href="#t1-isAlive-或-t1-join-等待结束" class="headerlink" title="t1.isAlive() 或 t1.join()等待结束"></a>t1.isAlive() 或 t1.join()等待结束</h3><ul>
+<li><p>线程结束前 对变量的写，对其它线程得知它结束后的读可见（比如其它线程调用 t1.isAlive() 或 t1.join()等待它结束）</p>
+<p>主线程获取的x值, 是线程执行完对x的写操作之后的值。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"></span><br><span class="line">Thread t1 = <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line"> 	x = <span class="number">10</span>;</span><br><span class="line">&#125;,<span class="string">&quot;t1&quot;</span>);</span><br><span class="line">t1.start();</span><br><span class="line"></span><br><span class="line">t1.join();</span><br><span class="line">System.out.println(x);</span><br></pre></td></tr></table></figure>
+
+<h3 id="interrupt打断"><a href="#interrupt打断" class="headerlink" title="interrupt打断"></a>interrupt打断</h3><ul>
+<li>线程 t1 打断 t2（interrupt）前对变量的写，对于其他线程得知 t2 被打断后, 对变量的读可见（通过 t2.interrupted 或 t2.isInterrupted）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Thread t2 = <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line">                System.out.println(x); <span class="comment">// 10, 打断了, 读取的也是打断前修改的值</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,<span class="string">&quot;t2&quot;</span>);</span><br><span class="line">    t2.start(); </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">        sleep(<span class="number">1</span>);</span><br><span class="line">        x = <span class="number">10</span>;</span><br><span class="line">        t2.interrupt();</span><br><span class="line">    &#125;,<span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(!t2.isInterrupted()) &#123;</span><br><span class="line">        Thread.yield();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(x);	<span class="comment">// 10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="传递性"><a href="#传递性" class="headerlink" title="传递性"></a>传递性</h3><ul>
+<li>对变量默认值（0，false，null）的写，对其它线程对该变量的 读可见 (最基本)</li>
+<li>具有传递性，如果 x hb-&gt; y 并且 y hb-&gt; z 那么有 x hb-&gt; z ，配合 volatile 的防指令重排，有下面的例子</li>
+<li>因为x加了volatile, 所以在volatile static int x 代码的上面添加了读屏障, 保证读到的x和y的变化是可见的(包括y, 只要是读屏障下面都OK); 通过传递性, t2线程对x,y的写操作, 都是可见的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">int</span> x;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> y;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">	y = <span class="number">10</span>;</span><br><span class="line">	x = <span class="number">20</span>;</span><br><span class="line">&#125;, <span class="string">&quot;t1&quot;</span> ).start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">	<span class="comment">//x=20对t2可见，同时y=10 也对t2可见</span></span><br><span class="line">    system.out. print1n(x);</span><br><span class="line">&#125;, <span class="string">&quot;t2&quot;</span> ).start();</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>volatile</code>主要用在<code>一个线程改,多个线程读时的来保证可见性</code>，和<code>double-checked locking模式中保证synchronized代码块外的共享变量的</code>指令重排序<code>问题</code></strong></p>
+<h2 id="五种单例模式"><a href="#五种单例模式" class="headerlink" title="五种单例模式"></a><strong>五种单例模式</strong></h2><p>单例模式有<strong>饿汉式、懒汉式、枚举类(饿汉)、静态内部类</strong></p>
+<h3 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 问题1：为什么加 final</span></span><br><span class="line"><span class="comment">// 问题2：如果实现了序列化接口, 还要做什么来防止反序列化破坏单例</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 问题3：为什么设置为私有?</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 问题4：这样初始化是否能保证单例对象创建时的线程安全</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    <span class="comment">// 问题5：为什么提供静态方法而不是直接将 INSTANCE 设置为 public, 说出你知道的理由</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">readResolve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问题1：为什么<strong>类要加 final</strong></p>
+<ul>
+<li>防止子类继承后重写方法破坏单例</li>
+</ul>
+<p>问题2：如果实现了序列化接口，还要做什么来<strong>防止反序列化破坏单例</strong></p>
+<ul>
+<li>反序列化时候生成的对象可能会破坏单例，直接在类里加一个**public Object readResolve() {}**方法，可以让反序列化的时候调用这个方法返回单例的实例</li>
+</ul>
+<p>问题3：为什么<strong>构造方法设置为私有</strong>?</p>
+<ul>
+<li>避免其他类使用new生成新的实例，并不能防止反射创建新的实例，因为反射可以打破封装</li>
+</ul>
+<p>问题4：这样初始化是否能保证单例对象创建时的线程安全？</p>
+<ul>
+<li>可以保证，因为实例在<strong>类加载</strong>的时候就<strong>初始化</strong>，JVM会保证其线程安全性</li>
+</ul>
+<p>问题5：为什么提供静态方法而不是直接将 INSTANCE 设置为 public, 说出你知道的理由。</p>
+<ul>
+<li>1.提供更好的<strong>封装性</strong>；2.提供<strong>泛型</strong>的支持</li>
+</ul>
+</blockquote>
+<h3 id="饿汉式之枚举"><a href="#饿汉式之枚举" class="headerlink" title="饿汉式之枚举"></a>饿汉式之枚举</h3><p>饿汉式：因为枚举的变量，底层是通过public static final来修饰的，类加载就创建了，所以是饿汉式</p>
+<p><img src="/../../img/markdown_img/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1.assets/image-20220122210404242.png" alt="image-20220122210404242"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 问题1：枚举单例是如何限制实例个数的</span></span><br><span class="line"><span class="comment">// 问题2：枚举单例在创建时是否有并发问题</span></span><br><span class="line"><span class="comment">// 问题3：枚举单例能否被反射破坏单例</span></span><br><span class="line"><span class="comment">// 问题4：枚举单例能否被反序列化破坏单例</span></span><br><span class="line"><span class="comment">// 问题5：枚举单例属于懒汉式还是饿汉式</span></span><br><span class="line"><span class="comment">// 问题6：枚举单例如果希望加入一些单例创建时的初始化逻辑该如何做</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"> INSTANCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问题1：枚举单例是如何限制实例个数的</p>
+<ul>
+<li><strong>创建枚举类的时候就已经定义好了</strong>，每个枚举常量其实就是枚举类的一个静态成员变量</li>
+</ul>
+<p>问题2：枚举单例在创建时是否有并发问题</p>
+<ul>
+<li>没有并发问题，是线程安全的，因为枚举单例底层是一个静态成员变量，它是通过类加载器的加载而创建的，确保了线程安全</li>
+</ul>
+<p>问题3：枚举单例能否被反射破坏单例</p>
+<ul>
+<li><p><strong>反射无法破坏枚举单例</strong>, 主要通过反射, newInstance的时候, 会在该方法中作判断, 如果检查是枚举类型, 就会抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ((<span class="keyword">this</span>.clazz.getModifiers() &amp; <span class="number">16384</span>) != <span class="number">0</span>)</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(“Cannot reflectively create <span class="class"><span class="keyword">enum</span> <span class="title">objects</span>”)</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>问题4：枚举单例能否被反序列化破坏单例</p>
+<ul>
+<li><strong>反序列化不能破坏</strong>，枚举类默认也实现了序列号接口。但枚举类考虑到了这个问题，不会破坏单例。</li>
+</ul>
+<p>问题 5：枚举单例属于懒汉式还是饿汉式</p>
+<ul>
+<li>属于<strong>饿汉式</strong>, 静态成员变量, 通过类加载器的时候就加载了。</li>
+</ul>
+<p>问题 6：枚举单例如果希望加入一些单例创建时的初始化逻辑该如何做</p>
+<ul>
+<li>加构造方法，枚举也可以写构造方法，普通方法等</li>
+</ul>
+</blockquote>
+<h3 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 分析这里的线程安全, 并说明有什么缺点：</span></span><br><span class="line">    <span class="comment">// synchronized加载静态方法上，可以保证线程安全。缺点就是锁粒度大，效率低。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>( INSTANCE != <span class="keyword">null</span> )&#123;</span><br><span class="line">            <span class="keyword">return</span> INSTANCE;</span><br><span class="line">        &#125;</span><br><span class="line">        INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DCL懒汉式"><a href="#DCL懒汉式" class="headerlink" title="DCL懒汉式"></a>DCL懒汉式</h3><p>DCL：double-check-locking</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="comment">// 问题1：解释为什么要加 volatile</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton INSTANCE = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 问题2：对比实现3, 说出这样做的意义：提高了效率</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (INSTANCE != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> INSTANCE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">            <span class="comment">// 问题3：为什么还要在这里加为空判断, 之前不是判断过了吗</span></span><br><span class="line">            <span class="keyword">if</span> (INSTANCE != <span class="keyword">null</span>) &#123; <span class="comment">// t2</span></span><br><span class="line">                <span class="keyword">return</span> INSTANCE;</span><br><span class="line">            &#125;</span><br><span class="line">            INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">            <span class="keyword">return</span> INSTANCE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问题1：解释为什么要加 volatile</p>
+<ul>
+<li>因为在synchronized外部使用到了共享变量INSTANCE，可能存在一个线程先初始化了instance，但是别的线程没有从主存中获取instance，而是从工作内存中获取instance，仍然为空，volatile保证了可见性，保证读取变量的时候都从主存中去获取，这样就不会存在已经创建了实例，但读取到实例仍然为空的情况</li>
+</ul>
+<p>问题2：对比上面的懒汉式，说出这样做的意义</p>
+<ul>
+<li>增加了双重判断，如果存在了单例对象，别的线程再进来就无需加锁判断，<strong>提升效率</strong></li>
+</ul>
+<p>问题3：为什么还要加为空判断, 之前不是判断过了吗</p>
+<ul>
+<li>主要原因还是因为并发的时候产生线程不安全的问题</li>
+<li>考虑这么一种情况：<ul>
+<li>线程1第一次进入了synchronized代码，获取到了锁，判断到instance为null，然后就去创建实例</li>
+<li>线程2此时已经进行了第一次判断为空，然后等待线程1释放锁。</li>
+<li>如果不加判断，线程1创建完后释放锁，线程2进入同步代码块，此时没有了第二重为空判断，就会直接创建实例，此时就重复创建了实例，破坏了单例</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="懒汉式之静态内部类"><a href="#懒汉式之静态内部类" class="headerlink" title="懒汉式之静态内部类"></a>懒汉式之静态内部类</h3><p>通过静态内部类来创建单例，对外不可见</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="comment">// 问题1：属于懒汉式还是饿汉式</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 问题2：在创建时是否有并发问题</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> LazyHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>问题1：属于懒汉式还是饿汉式</p>
+<ul>
+<li>懒汉式，因为这是个静态内部类，类加载本身就是懒惰的，在没有用到这个类的时候，是不会进行类加载的，因此没有用到静态内部类，就不会进行内部类类加载，既然没有进行LazyHolder的类加载操作，就不会用LazyHolder对于外部类实例INSTANCE的初始化操作。</li>
+</ul>
+<p>问题2：在创建时是否有并发问题</p>
+<ul>
+<li>没有并发问题，仍然是单例的。因为类加载是懒惰的，没有用到静态内部类，就不会进行内部类类加载，既然没有进行LazyHolder的类加载操作，就不会用LazyHolder对于外部类实例INSTANCE的初始化操作。</li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/">http://ins1mn1a.github.io/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">JUC并发编程</a></div><div class="post_share"><div class="social-share" data-image="/img/background_img/cute1.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/02/09/JUC/AQS%20ReentrantLock%E5%8E%9F%E7%90%86/"><img class="next-cover" src="/img/background_img/top_img1.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">AQS</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/17/JUC/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/" title="线程的安全性问题"><img class="cover" src="/img/background_img/top_img1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-17</div><div class="title">线程的安全性问题</div></div></a></div><div><a href="/2022/02/09/JUC/AQS%20ReentrantLock%E5%8E%9F%E7%90%86/" title="AQS"><img class="cover" src="/img/background_img/top_img1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-09</div><div class="title">AQS</div></div></a></div><div><a href="/2022/02/09/JUC/CAS/" title="CAS"><img class="cover" src="/img/background_img/cute3.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-09</div><div class="title">CAS</div></div></a></div><div><a href="/2022/02/09/JUC/ReentrantLock/" title="ReentrantLock"><img class="cover" src="/img/background_img/cute1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-09</div><div class="title">ReentrantLock</div></div></a></div><div><a href="/2022/01/17/JUC/synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81/" title="synchronized底层原理"><img class="cover" src="/img/background_img/cute2.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-17</div><div class="title">synchronized底层原理</div></div></a></div><div><a href="/2022/01/17/JUC/%E7%BA%BF%E7%A8%8B/" title="线程"><img class="cover" src="/img/background_img/cute2.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-17</div><div class="title">线程</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">Java 内存模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">可见性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">原子性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile%E5%AE%9E%E7%8E%B0%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%B8%A4%E9%98%B6%E6%AE%B5%E7%BB%88%E6%AD%A2"><span class="toc-number">4.</span> <span class="toc-text">volatile实现模式之两阶段终止</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E4%B9%8B-Balking"><span class="toc-number">5.</span> <span class="toc-text">模式之 Balking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7"><span class="toc-number">6.</span> <span class="toc-text">有序性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%9A%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">6.1.</span> <span class="toc-text">支持流水线的处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%BA%8F%E5%AF%BC%E8%87%B4%E9%94%99%E8%AF%AF%E7%BB%93%E6%9E%9C"><span class="toc-number">6.2.</span> <span class="toc-text">指令重排序导致错误结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile%E5%8E%9F%E7%90%86"><span class="toc-number">7.</span> <span class="toc-text">volatile原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%BF%9D%E8%AF%81%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">7.1.</span> <span class="toc-text">volatile保证可见性原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%BF%9D%E8%AF%81%E6%9C%89%E5%BA%8F%E6%80%A7%E5%8E%9F%E7%90%86"><span class="toc-number">7.2.</span> <span class="toc-text">volatile保证有序性原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E6%8C%87%E4%BB%A4%E4%BA%A4%E9%94%99-%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E5%8E%9F%E5%AD%90%E6%80%A7-%EF%BC%9A"><span class="toc-number">7.3.</span> <span class="toc-text">volatile不能解决指令交错 (不能解决原子性)：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#double-checked-locking-%E5%8F%8C%E9%87%8D%E6%A3%80%E6%9F%A5%E9%94%81"><span class="toc-number">8.</span> <span class="toc-text">double-checked locking (双重检查锁)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Happens-before%E8%A7%84%E5%88%99"><span class="toc-number">9.</span> <span class="toc-text">Happens-before规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E9%94%81"><span class="toc-number">9.1.</span> <span class="toc-text">synchronized锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile-%E5%8F%98%E9%87%8F"><span class="toc-number">9.2.</span> <span class="toc-text">volatile 变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#start-%E5%89%8D%E7%9A%84%E5%86%99%E6%93%8D%E4%BD%9C"><span class="toc-number">9.3.</span> <span class="toc-text">start() 前的写操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#t1-isAlive-%E6%88%96-t1-join-%E7%AD%89%E5%BE%85%E7%BB%93%E6%9D%9F"><span class="toc-number">9.4.</span> <span class="toc-text">t1.isAlive() 或 t1.join()等待结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#interrupt%E6%89%93%E6%96%AD"><span class="toc-number">9.5.</span> <span class="toc-text">interrupt打断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E6%80%A7"><span class="toc-number">9.6.</span> <span class="toc-text">传递性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E7%A7%8D%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">10.</span> <span class="toc-text">五种单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A5%BF%E6%B1%89%E5%BC%8F"><span class="toc-number">10.1.</span> <span class="toc-text">饿汉式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A5%BF%E6%B1%89%E5%BC%8F%E4%B9%8B%E6%9E%9A%E4%B8%BE"><span class="toc-number">10.2.</span> <span class="toc-text">饿汉式之枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%87%92%E6%B1%89%E5%BC%8F"><span class="toc-number">10.3.</span> <span class="toc-text">懒汉式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DCL%E6%87%92%E6%B1%89%E5%BC%8F"><span class="toc-number">10.4.</span> <span class="toc-text">DCL懒汉式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%87%92%E6%B1%89%E5%BC%8F%E4%B9%8B%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="toc-number">10.5.</span> <span class="toc-text">懒汉式之静态内部类</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/" title="Java 内存模型"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Java 内存模型"/></a><div class="content"><a class="title" href="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/" title="Java 内存模型">Java 内存模型</a><time datetime="2022-02-09T15:01:55.449Z" title="发表于 2022-02-09 23:01:55">2022-02-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/JUC/AQS%20ReentrantLock%E5%8E%9F%E7%90%86/" title="AQS"><img src="/img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="AQS"/></a><div class="content"><a class="title" href="/2022/02/09/JUC/AQS%20ReentrantLock%E5%8E%9F%E7%90%86/" title="AQS">AQS</a><time datetime="2022-02-09T14:53:07.569Z" title="发表于 2022-02-09 22:53:07">2022-02-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/JUC/CAS/" title="CAS"><img src="/img/background_img/cute3.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="CAS"/></a><div class="content"><a class="title" href="/2022/02/09/JUC/CAS/" title="CAS">CAS</a><time datetime="2022-02-09T14:52:57.069Z" title="发表于 2022-02-09 22:52:57">2022-02-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/JUC/ReentrantLock/" title="ReentrantLock"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="ReentrantLock"/></a><div class="content"><a class="title" href="/2022/02/09/JUC/ReentrantLock/" title="ReentrantLock">ReentrantLock</a><time datetime="2022-02-09T14:20:56.592Z" title="发表于 2022-02-09 22:20:56">2022-02-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/17/JUC/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/" title="线程的安全性问题"><img src="/img/background_img/top_img1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="线程的安全性问题"/></a><div class="content"><a class="title" href="/2022/01/17/JUC/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/" title="线程的安全性问题">线程的安全性问题</a><time datetime="2022-01-17T10:35:35.045Z" title="发表于 2022-01-17 18:35:35">2022-01-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">it feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
