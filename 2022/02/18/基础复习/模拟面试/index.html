@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ins1mn1a | ins1mn1a</title><meta name="author" content="ins1mnia"><meta name="copyright" content="ins1mnia"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="JVMJVM的4个部分JVM组件主要有4个部分：  类加载子系统：加载class，将类的信息加载到方法区 运行时数据区（内存）：分为堆、方法区、程序计数器、Java虚拟机栈、本地方法栈 执行引擎：解释器、JIT即时编译器、GC垃圾回收 本地方法接口：调用本地方法库  JVM内存划分JVM内存划分 Java代码执行过程结合一段Java代码的执行理解内存划分   执行javac命令编译源代码为字节码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ins1mn1a">
+<meta property="og:url" content="http://ins1mn1a.github.io/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/index.html">
+<meta property="og:site_name" content="ins1mn1a">
+<meta property="og:description" content="JVMJVM的4个部分JVM组件主要有4个部分：  类加载子系统：加载class，将类的信息加载到方法区 运行时数据区（内存）：分为堆、方法区、程序计数器、Java虚拟机栈、本地方法栈 执行引擎：解释器、JIT即时编译器、GC垃圾回收 本地方法接口：调用本地方法库  JVM内存划分JVM内存划分 Java代码执行过程结合一段Java代码的执行理解内存划分   执行javac命令编译源代码为字节码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ins1mn1a.github.io/img/background_img/cute1.jpeg">
+<meta property="article:published_time" content="2022-02-18T14:25:02.517Z">
+<meta property="article:modified_time" content="2022-02-18T14:28:43.278Z">
+<meta property="article:author" content="ins1mnia">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ins1mn1a.github.io/img/background_img/cute1.jpeg"><link rel="shortcut icon" href="/img/background_img/%E7%8E%89%E5%AD%90.icon.png"><link rel="canonical" href="http://ins1mn1a.github.io/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ins1mn1a',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-18 22:28:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="ins1mn1a" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/background_img/cute1.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ins1mn1a</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-18T14:25:02.517Z" title="发表于 2022-02-18 22:25:02">2022-02-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-18T14:28:43.278Z" title="更新于 2022-02-18 22:28:43">2022-02-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="JVM的4个部分"><a href="#JVM的4个部分" class="headerlink" title="JVM的4个部分"></a>JVM的4个部分</h3><p>JVM组件主要有4个部分：</p>
+<ul>
+<li>类加载子系统：加载class，将<strong>类的信息</strong>加载到<strong>方法区</strong></li>
+<li>运行时数据区（内存）：分为堆、方法区、程序计数器、Java虚拟机栈、本地方法栈</li>
+<li>执行引擎：解释器、JIT即时编译器、GC垃圾回收</li>
+<li>本地方法接口：调用本地方法库</li>
+</ul>
+<h3 id="JVM内存划分"><a href="#JVM内存划分" class="headerlink" title="JVM内存划分"></a>JVM内存划分</h3><p>JVM内存划分</p>
+<h3 id="Java代码执行过程"><a href="#Java代码执行过程" class="headerlink" title="Java代码执行过程"></a>Java代码执行过程</h3><p><strong>结合一段Java代码的执行理解内存划分</strong></p>
+<p><img src="/../../img/markdown_img/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95.assets/image-20220217220809311.png" alt="image-20220217220809311"></p>
+<ul>
+<li>执行javac命令编译源代码为字节码</li>
+<li>执行java命令<ol>
+<li>创建JVM，调用类加载子系统<strong>加载class</strong>，将类的信息存入<strong>方法区</strong></li>
+<li>创建main线程，使用的内存区域是<strong>JVM虚拟机栈</strong>，开始执行main方法代码</li>
+<li>如果遇到了未见过的类，会继续触发类加载过程，同样会存入<strong>方法区</strong></li>
+<li>需要创建<strong>对象</strong>，会使用<strong>堆内存</strong>来存储对象</li>
+<li>不再使用的对象，会由<strong>垃圾回收器</strong>在内存不足时回收其内存</li>
+<li>调用方法时，<strong>方法内的局部变量、方法参数</strong>所使用的是<strong>JVM虚拟机栈</strong>中的<strong>栈帧内存</strong></li>
+<li>调用方法时，先要到<strong>方法区</strong>获得到该方法的字节码指令，由<strong>解释器</strong>将<strong>字节码指令解释为机器码</strong>执行</li>
+<li>调用方法时，会将要执行的指令行号读到<strong>程序计数器</strong>，这样当<strong>发生了线程切换</strong>，<strong>恢复</strong>时就可以从中断的位置继续</li>
+<li>对于非Java实现的方法调用，使用内存称为<strong>本地方法栈</strong></li>
+<li>对于<strong>热点方法调用</strong>，或者<strong>频繁的循环代码</strong>，由<strong>JIT即使编译器</strong>将这些代码编译成机器码缓存，提高执行性能</li>
+</ol>
+</li>
+</ul>
+<p>说明</p>
+<ul>
+<li>对于 Oracle 的 Hotspot 虚拟机实现，不区分虚拟机栈和本地方法栈</li>
+</ul>
+<p><strong>会发生内存溢出的区域</strong></p>
+<ul>
+<li>不会出现内存溢出的区域 - 程序计数器</li>
+<li>出现OOM（OutOfMemoryError）的情况<ul>
+<li><strong>堆内存耗尽</strong> — 对象越来越多，又一直在使用，不能被垃圾回收</li>
+<li><strong>方法区内存耗尽</strong> — 加载的类越来越多，很多框架都会在运行期间动态产生新的类</li>
+<li><strong>虚拟机栈累积</strong> — 每个线程最多会占用1M内存，线程个数越来越多，而又长时间运行不销毁时</li>
+</ul>
+</li>
+<li>出现 <strong>StackOverflowError</strong> 的区域<ul>
+<li><strong>JVM虚拟机栈</strong>，原因有<strong>方法递归调用未正确结束</strong>，<strong>反序列化 json 时循环引用</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="一个对象的GC过程"><a href="#一个对象的GC过程" class="headerlink" title="一个对象的GC过程"></a>一个对象的GC过程</h3><p>就是分成3个代，老年代、永久代</p>
+<h3 id="内存溢出OOM"><a href="#内存溢出OOM" class="headerlink" title="内存溢出OOM"></a>内存溢出OOM</h3><h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="讲一下HashMap"><a href="#讲一下HashMap" class="headerlink" title="讲一下HashMap"></a>讲一下HashMap</h3><p>底层实现，1.7是什么对吧数组+链表  1.8 到红黑树</p>
+<p>讲一下扩容机制，put流程、转化为红黑树的条件，退化为链表的情况</p>
+<p>再说1.7头插法带来的问题，1.8改为尾插法</p>
+<p>并发死链问题、数据</p>
+<h3 id="HashTable与HashMap区别"><a href="#HashTable与HashMap区别" class="headerlink" title="HashTable与HashMap区别"></a>HashTable与HashMap区别</h3><h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h3 id="锁记录Lock-Record锁升级的一个过程"><a href="#锁记录Lock-Record锁升级的一个过程" class="headerlink" title="锁记录Lock Record锁升级的一个过程"></a><strong>锁记录Lock Record锁升级的一个过程</strong></h3><p>锁记录Lock Record锁升级的一个过程，不是说是跟synchronized可重入有关的。</p>
+<p>可以讲又来一线程想要加锁，然后就cas什么什么，然后自然失败，失败了就会把</p>
+<p><img src="/../../img/markdown_img/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95.assets/image-20220218155139756.png" alt="image-20220218155139756"></p>
+<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h3><p>底层就直接说从无锁到偏向锁到轻量级锁到重量级锁的过程</p>
+<h3 id="synchronized作用在代码块和同步方法上的区别"><a href="#synchronized作用在代码块和同步方法上的区别" class="headerlink" title="synchronized作用在代码块和同步方法上的区别"></a>synchronized作用在代码块和同步方法上的区别</h3><h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>说说CAS</p>
+<p>CAS，可以说是<strong>乐观锁</strong>，但是实际上是<strong>不加锁</strong>的状态。<strong>CAS底层</strong>就是使用的一个<strong>lock指令</strong>。在<strong>CPU多核状态</strong>下，某个核<strong>执行到带lock的指令</strong>时，CPU会让<strong>总线锁住</strong>，当这个核把这个<strong>指令执行完毕</strong>，<strong>再开启总线</strong>。这个过程<strong>不会被线程的调度机制打断</strong>，保证了多线程对内存操作的准确性和原子性。在Java API层面一般就是一个<strong>compareAndSet</strong>方法，这个方法需要<strong>先获取当前线程知道的值</strong>，然后<strong>拿着这个值去和内存中的准确值比较</strong>，看是否相等，如果相等就可以把这个值进行一个原子的修改操作返回true，修改成功。否则就返回false，然后就需要一个while(true)的循环，一直重试，直到设置成功。这样就需要<strong>CAS和volatile一起使用，利用volatile的读写屏障来保证数据对于其他线程的可见性</strong></p>
+<p><strong>CAS+volatile <strong>实现的是一个</strong>无锁并发</strong>，没有synchronized关键字，<strong>线程不会进入阻塞状态</strong>，<strong>没有线程上下文的切换的效率上的降低</strong>，但是 <strong>如果线程竞争激烈（写操作多）</strong>，线程很有可能会<strong>一直cas失败</strong>，一直<strong>重试</strong>，<strong>效率</strong>反而会<strong>降低</strong></p>
+<h3 id="synchronized是不是可重入的"><a href="#synchronized是不是可重入的" class="headerlink" title="synchronized是不是可重入的"></a>synchronized是不是可重入的</h3><h3 id="ReentrantLock加锁流程"><a href="#ReentrantLock加锁流程" class="headerlink" title="ReentrantLock加锁流程"></a>ReentrantLock加锁流程</h3><h3 id="synchronized和ReentrantLock的区别"><a href="#synchronized和ReentrantLock的区别" class="headerlink" title="synchronized和ReentrantLock的区别"></a>synchronized和ReentrantLock的区别</h3><h3 id="为什么要用线程池来创建线程"><a href="#为什么要用线程池来创建线程" class="headerlink" title="为什么要用线程池来创建线程"></a>为什么要用线程池来创建线程</h3><h3 id="创建线程池的方式"><a href="#创建线程池的方式" class="headerlink" title="创建线程池的方式"></a>创建线程池的方式</h3><p>Executors创建4中线程池的缺点</p>
+<p>一般要使用ThreadPoolExecutor创建线程池</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ins1mnia</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ins1mn1a.github.io/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/">http://ins1mn1a.github.io/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ins1mn1a.github.io" target="_blank">ins1mn1a</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/background_img/cute1.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AF%87%E8%AE%B2%E4%B9%89/"><img class="prev-cover" src="/img/background_img/cute1.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/"><img class="next-cover" src="/img/background_img/cute1.jpeg" onerror="onerror=null;src='/img/background_img/error_page.jpeg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java 内存模型</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://tvax1.sinaimg.cn/crop.0.0.996.996.180/007RWaeLly8gr7p82e9e6j30ro0rognd.jpg?KID=imgbed,tva&amp;Expires=1639625304&amp;ssig=yn%2FY%2BCtxLO" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="avatar"/></div><div class="author-info__name">ins1mnia</div><div class="author-info__description">because it feels like ins1mnia</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ins1mnia"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ins1mnia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ins1mnia@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">穿梭时间的画面的钟,从反方向开始移动</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM"><span class="toc-number">1.</span> <span class="toc-text">JVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E7%9A%844%E4%B8%AA%E9%83%A8%E5%88%86"><span class="toc-number">1.1.</span> <span class="toc-text">JVM的4个部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM%E5%86%85%E5%AD%98%E5%88%92%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">JVM内存划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">Java代码执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84GC%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">一个对象的GC过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BAOOM"><span class="toc-number">1.5.</span> <span class="toc-text">内存溢出OOM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88"><span class="toc-number">2.</span> <span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%B2%E4%B8%80%E4%B8%8BHashMap"><span class="toc-number">2.1.</span> <span class="toc-text">讲一下HashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashTable%E4%B8%8EHashMap%E5%8C%BA%E5%88%AB"><span class="toc-number">2.2.</span> <span class="toc-text">HashTable与HashMap区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%81%E8%AE%B0%E5%BD%95Lock-Record%E9%94%81%E5%8D%87%E7%BA%A7%E7%9A%84%E4%B8%80%E4%B8%AA%E8%BF%87%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">锁记录Lock Record锁升级的一个过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized"><span class="toc-number">3.2.</span> <span class="toc-text">synchronized</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E4%BD%9C%E7%94%A8%E5%9C%A8%E4%BB%A3%E7%A0%81%E5%9D%97%E5%92%8C%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95%E4%B8%8A%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.3.</span> <span class="toc-text">synchronized作用在代码块和同步方法上的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS"><span class="toc-number">3.4.</span> <span class="toc-text">CAS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E6%98%AF%E4%B8%8D%E6%98%AF%E5%8F%AF%E9%87%8D%E5%85%A5%E7%9A%84"><span class="toc-number">3.5.</span> <span class="toc-text">synchronized是不是可重入的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReentrantLock%E5%8A%A0%E9%94%81%E6%B5%81%E7%A8%8B"><span class="toc-number">3.6.</span> <span class="toc-text">ReentrantLock加锁流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.7.</span> <span class="toc-text">synchronized和ReentrantLock的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="toc-number">3.8.</span> <span class="toc-text">为什么要用线程池来创建线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">3.9.</span> <span class="toc-text">创建线程池的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">3.10.</span> <span class="toc-text">ConcurrentHashMap</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E5%9F%BA%E7%A1%80%E7%AF%87%E8%AE%B2%E4%B9%89/" title="无题"><img src="/img/background_img/Irena.png" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E5%9F%BA%E7%A1%80%E7%AF%87%E8%AE%B2%E4%B9%89/" title="无题">无题</a><time datetime="2022-02-18T14:35:26.176Z" title="发表于 2022-02-18 22:35:26">2022-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E5%B9%B6%E5%8F%91%E7%AF%87%E8%AE%B2%E4%B9%89/" title="无题"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E5%B9%B6%E5%8F%91%E7%AF%87%E8%AE%B2%E4%B9%89/" title="无题">无题</a><time datetime="2022-02-18T14:31:41.212Z" title="发表于 2022-02-18 22:31:41">2022-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AF%87%E8%AE%B2%E4%B9%89/" title="无题"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AF%87%E8%AE%B2%E4%B9%89/" title="无题">无题</a><time datetime="2022-02-18T14:29:22.613Z" title="发表于 2022-02-18 22:29:22">2022-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/" title="无题"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="无题"/></a><div class="content"><a class="title" href="/2022/02/18/%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/" title="无题">无题</a><time datetime="2022-02-18T14:25:02.517Z" title="发表于 2022-02-18 22:25:02">2022-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/" title="Java 内存模型"><img src="/img/background_img/cute1.jpeg" onerror="this.onerror=null;this.src='/img/background_img/error_page.jpeg'" alt="Java 内存模型"/></a><div class="content"><a class="title" href="/2022/02/09/JUC/%E5%8E%9F%E5%AD%90%E6%80%A7%E5%8F%AF%E8%A7%81%E6%80%A7%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1/" title="Java 内存模型">Java 内存模型</a><time datetime="2022-02-09T15:01:55.449Z" title="发表于 2022-02-09 23:01:55">2022-02-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By ins1mnia</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">it feels like ins1mnia</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="you,are,you,are,my,favorite,medicine" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
