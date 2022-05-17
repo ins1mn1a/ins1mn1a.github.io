@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ins1mn1a.github.io/2022/05/17/Java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80/</loc>
+    
+    <lastmod>2022-05-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://ins1mn1a.github.io/2022/05/17/JUC/ConcurrentHashMap/</loc>
     
     <lastmod>2022-05-17</lastmod>
@@ -164,7 +173,7 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/2022/01/17/JUC/synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81/</loc>
+    <loc>http://ins1mn1a.github.io/2022/02/09/JUC/ReentrantLock/</loc>
     
     <lastmod>2022-03-08</lastmod>
     
@@ -173,7 +182,7 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/2022/02/09/JUC/ReentrantLock/</loc>
+    <loc>http://ins1mn1a.github.io/2022/01/17/JUC/synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81/</loc>
     
     <lastmod>2022-03-08</lastmod>
     
@@ -306,14 +315,14 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/tags/SDN/</loc>
+    <loc>http://ins1mn1a.github.io/tags/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2022-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/tags/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
+    <loc>http://ins1mn1a.github.io/tags/SDN/</loc>
     <lastmod>2022-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -361,6 +370,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://ins1mn1a.github.io/tags/Java%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2022-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -371,14 +387,14 @@
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/categories/SDN%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C/</loc>
+    <loc>http://ins1mn1a.github.io/categories/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2022-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://ins1mn1a.github.io/categories/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
+    <loc>http://ins1mn1a.github.io/categories/SDN%E8%BD%AF%E4%BB%B6%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C/</loc>
     <lastmod>2022-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -421,6 +437,13 @@
   
   <url>
     <loc>http://ins1mn1a.github.io/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://ins1mn1a.github.io/categories/Java%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2022-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
